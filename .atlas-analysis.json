@@ -1,0 +1,78 @@
+{
+  "projectType": "general",
+  "projectName": "Mobile First Course",
+  "projectDescription": "An educational portfolio project demonstrating mobile-first design principles and responsive web development",
+  "theme": "palm",
+  "primaryColor": "#0ceb8b",
+  "lightColor": "#10915d",
+  "darkColor": "#13181d",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Core Concepts",
+        "pages": [
+          "concepts/mobile-first",
+          "concepts/responsive-design",
+          "concepts/css-architecture"
+        ]
+      },
+      {
+        "group": "Components",
+        "pages": [
+          "components/header",
+          "components/hero",
+          "components/skills",
+          "components/experience",
+          "components/about",
+          "components/projects",
+          "components/testimonials",
+          "components/contact"
+        ]
+      },
+      {
+        "group": "Styling",
+        "pages": [
+          "styling/variables",
+          "styling/typography",
+          "styling/layout",
+          "styling/responsive-breakpoints"
+        ]
+      },
+      {
+        "group": "Best Practices",
+        "pages": [
+          "best-practices/accessibility",
+          "best-practices/image-optimization",
+          "best-practices/performance"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Mobile-first responsive design methodology",
+    "Semantic HTML structure with ARIA labels",
+    "CSS custom properties and modern layout techniques",
+    "Optimized images with WebP format and lazy loading",
+    "Interactive navigation with JavaScript",
+    "Portfolio sections: hero, skills, experience, projects, testimonials, contact"
+  ],
+  "publicApiSurface": [
+    "Header navigation component with mobile toggle",
+    "Hero section with social links",
+    "Skills grid with auto-fit responsive layout",
+    "Experience cards with hover effects",
+    "About section with two-column layout",
+    "Project cards with alternating layout",
+    "Testimonial cards with avatar and quotes",
+    "Contact form with validation-ready inputs",
+    "CSS custom properties system (variables.css)",
+    "Responsive breakpoints: 768px (tablet), 1024px (desktop)"
+  ]
+}
