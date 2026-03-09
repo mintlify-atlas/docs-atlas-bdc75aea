@@ -1,0 +1,215 @@
+---
+title: Header Component
+description: Responsive navigation header with mobile menu toggle
+---
+
+## Overview
+
+The header component provides the main navigation for the portfolio site. It features a responsive design with a mobile hamburger menu that expands on smaller screens and a full horizontal navigation on desktop.
+
+## Key Features
+
+- Responsive mobile-first design
+- Hamburger menu toggle for mobile devices
+- Brand logo and title
+- Main navigation links
+- CTA button (Resume download)
+- Smooth transitions and accessibility features
+
+## HTML Structure
+
+The header is built with a simple, semantic structure:
+
+```html
+<header class="header">
+  <div class="header__brand">
+    <img
+      class="header__logo"
+      src="assets/logo.svg"
+      alt="Flora Sheen Portfolio"
+    />
+    <span class="header__title">Personal</span>
+  </div>
+  <button aria-label="Toggle Menu" class="header__toggle" aria-expanded="false">
+    <img src="assets/toggle.svg" alt="Hamburger Menu" />
+  </button>
+
+  <nav class="header__nav">
+    <ul>
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Project</a></li>
+      <li><a href="#contact">Contact Me</a></li>
+    </ul>
+  </nav>
+
+  <button class="header__cta" aria-label="Download resume">Resume</button>
+</header>
+```
+
+## CSS Classes
+
+### Main Container
+
+<Accordion title=".header">
+  The main header container uses flexbox for layout:
+  
+  ```css
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-16);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    position: relative;
+  }
+  ```
+</Accordion>
+
+### Brand Section
+
+<Accordion title=".header__brand">
+  Contains the logo and site title:
+  
+  ```css
+  .header__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-12);
+  }
+
+  .header__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-black);
+  }
+  ```
+</Accordion>
+
+### Navigation
+
+<Accordion title=".header__nav">
+  The navigation is hidden by default on mobile and shown when toggled:
+  
+  ```css
+  .header__nav,
+  .header__cta {
+    display: none;
+  }
+
+  .header__nav.header__nav--active {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--primary-white);
+    padding: var(--spacing-20);
+    border-bottom: 2px solid var(--primary-black);
+    z-index: 10;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 1022px)">
+    - Hamburger menu toggle visible
+    - Navigation hidden by default
+    - CTA button hidden
+    - Menu slides down when toggled
+    - Vertical navigation layout
+    
+    ```css
+    .header__nav.header__nav--active ul {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-16);
+      align-items: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 1022px)">
+    - Hamburger toggle hidden
+    - Navigation always visible
+    - Horizontal navigation layout
+    - CTA button visible
+    
+    ```css
+    @media (min-width: 1022px) {
+      .header__nav,
+      .header__cta {
+        display: block;
+      }
+      
+      .header__toggle {
+        display: none;
+      }
+
+      .header__nav ul {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-32);
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .header__cta {
+        font-size: 20px;
+        background-color: var(--primary-black);
+        color: var(--primary-white);
+        padding: var(--spacing-16) var(--spacing-20);
+        border-radius: 2px;
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## JavaScript Interaction
+
+The header uses JavaScript for mobile menu toggle functionality:
+
+```javascript
+const toggleBtn = document.querySelector('.header__toggle');
+const nav = document.querySelector('.header__nav');
+const navLinks = document.querySelectorAll('.header__nav a');
+
+toggleBtn.addEventListener('click', () => {
+  nav.classList.toggle('header__nav--active');
+  const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+  toggleBtn.setAttribute('aria-expanded', !isExpanded);
+});
+
+// Close menu when clicking a link
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('header__nav--active');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+```
+
+## Accessibility Features
+
+- `aria-label` on toggle button
+- `aria-expanded` attribute that updates dynamically
+- Semantic HTML with `<header>` and `<nav>` elements
+- Proper button elements for interactive components
+- Keyboard-accessible navigation links
+
+## Implementation Notes
+
+<Note>
+  The header is positioned at the top of the page (lines 25-48 in index.html) and uses CSS custom properties for consistent spacing and colors.
+</Note>
+
+<Warning>
+  The mobile menu toggle requires JavaScript to function. Ensure main.js is loaded at the end of the document.
+</Warning>

@@ -1,0 +1,264 @@
+---
+title: Experience Component
+description: Timeline of work experience with company logos and descriptions
+---
+
+## Overview
+
+The experience section showcases the developer's work history in a clean, card-based layout. Each experience card includes a company logo, role title, dates, and detailed description.
+
+## Key Features
+
+- Dark background for visual contrast
+- Responsive grid layout for each card
+- Company logo integration
+- Hover effects for interactivity
+- Organized display of role, dates, and descriptions
+
+## HTML Structure
+
+The experience section contains multiple experience cards:
+
+```html
+<section class="experience" id="experience">
+  <div class="section-container">
+    <h2 class="experience__title section-title">
+      My <strong>Experience</strong>
+    </h2>
+
+    <div class="experience-card">
+      <div class="experience-card__logo">
+        <img src="assets/google.svg" alt="Google" />
+      </div>
+
+      <h3 class="experience-card__role">
+        Lead Software Engineer at Google
+      </h3>
+      <p class="experience-card__date">Nov 2019 – Present</p>
+
+      <p class="experience-card__description">
+        As a Senior Software Engineer at Google, I played a pivotal role
+        in developing innovative solutions for Google's core search
+        algorithms. Collaborating with a dynamic team of engineers, I
+        contributed to the enhancement of search accuracy and efficiency,
+        optimizing user experiences for millions of users worldwide.
+      </p>
+    </div>
+
+    <div class="experience-card">
+      <div class="experience-card__logo">
+        <img src="assets/youtube.svg" alt="Youtube" />
+      </div>
+
+      <h3 class="experience-card__role">Software Engineer at Youtube</h3>
+      <p class="experience-card__date">Jan 2017 – Oct 2019</p>
+
+      <p class="experience-card__description">
+        At Youtube, I served as a Software Engineer, focusing on the
+        design and implementation of backend systems for the social media
+        giant's dynamic platform. Working on projects that involved
+        large-scale data processing and user engagement features, I
+        leveraged my expertise to ensure seamless functionality and
+        scalability.
+      </p>
+    </div>
+
+    <div class="experience-card">
+      <div class="experience-card__logo">
+        <img src="assets/apple.svg" alt="Apple" />
+      </div>
+
+      <h3 class="experience-card__role">
+        Junior Software Engineer at Apple
+      </h3>
+      <p class="experience-card__date">Jan 2016 – Dec 2017</p>
+
+      <p class="experience-card__description">
+        During my tenure at Apple, I held the role of Software Architect,
+        where I played a key role in shaping the architecture of
+        mission-critical software projects. Responsible for designing
+        scalable and efficient systems, I provided technical leadership to
+        a cross-functional team.
+      </p>
+    </div>
+  </div>
+</section>
+```
+
+## CSS Classes
+
+### Section Styling
+
+<Accordion title=".experience">
+  Dark background section for visual impact:
+  
+  ```css
+  .experience {
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+  }
+  ```
+</Accordion>
+
+### Experience Card
+
+<Accordion title=".experience-card">
+  Grid-based card layout with responsive grid areas:
+  
+  ```css
+  .experience-card {
+    padding: var(--spacing-32) var(--spacing-24);
+    border: 1px solid var(--zinc-500);
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: var(--spacing-32);
+    grid-template-areas: 'logo role' 'date date' 'description description';
+    align-items: center;
+  }
+
+  .experience-card:hover {
+    background-color: var(--zinc-800);
+  }
+  ```
+</Accordion>
+
+### Card Elements
+
+<Accordion title="Card Sub-elements">
+  Individual elements positioned using grid areas:
+  
+  ```css
+  .experience-card__logo {
+    grid-area: logo;
+    width: 100%;
+  }
+
+  .experience-card__role {
+    grid-area: role;
+    font-size: 1.25rem;
+    font-weight: 600;
+    align-self: end;
+  }
+
+  .experience-card__date {
+    color: var(--zinc-300);
+    font-size: 1rem;
+    font-weight: 600;
+    grid-area: date;
+  }
+
+  .experience-card__description {
+    grid-area: description;
+    line-height: 1.5;
+    color: var(--zinc-300);
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 768px)">
+    - Vertical layout with logo and role on first row
+    - Date spans full width on second row
+    - Description spans full width below
+    
+    ```css
+    .experience-card {
+      grid-template-columns: 32px 1fr;
+      grid-template-areas: 
+        'logo role' 
+        'date date' 
+        'description description';
+    }
+    ```
+    
+    Layout visualization:
+    ```
+    [Logo] [Role Title      ]
+    [Date                   ]
+    [Description            ]
+    [Description continues  ]
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 768px)">
+    - Horizontal layout with logo, role, and date on first row
+    - Description spans full width below
+    - More compact and efficient use of space
+    
+    ```css
+    @media (min-width: 768px) {
+      .experience-card {
+        grid-template-columns: 32px 1fr auto;
+        grid-template-areas: 
+          'logo role date' 
+          'description description description';
+      }
+    }
+    ```
+    
+    Layout visualization:
+    ```
+    [Logo] [Role Title      ] [Date        ]
+    [Description                           ]
+    [Description continues                 ]
+    ```
+  </Tab>
+</Tabs>
+
+## Grid Template Areas
+
+The component uses CSS Grid template areas for flexible, semantic layout:
+
+<CodeGroup>
+  ```css Mobile Layout
+  grid-template-areas: 
+    'logo role' 
+    'date date' 
+    'description description';
+  ```
+
+  ```css Desktop Layout
+  grid-template-areas: 
+    'logo role date' 
+    'description description description';
+  ```
+</CodeGroup>
+
+This approach allows easy reordering and repositioning of elements at different breakpoints.
+
+## Color Scheme
+
+The experience section uses a distinct dark theme:
+
+- Background: `var(--primary-black)`
+- Text: `var(--primary-white)`
+- Secondary text: `var(--zinc-300)`
+- Border: `var(--zinc-500)`
+- Hover background: `var(--zinc-800)`
+
+## Hover Effects
+
+<Note>
+  Cards feature a subtle hover effect that changes the background to a slightly lighter shade, providing visual feedback without being distracting.
+</Note>
+
+```css
+.experience-card:hover {
+  background-color: var(--zinc-800);
+}
+```
+
+## Implementation Location
+
+The experience section is located at lines 169-231 in index.html, with styles at lines 309-362 in global.css.
+
+## Best Practices
+
+<Tip>
+  The 32px logo width is consistent across all breakpoints, providing a uniform visual anchor for each experience card.
+</Tip>

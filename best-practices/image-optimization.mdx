@@ -1,0 +1,299 @@
+---
+title: Image Optimization
+description: Optimize images for mobile-first websites using WebP format, responsive images with srcset, and lazy loading techniques
+---
+
+# Image Optimization
+
+Images often account for the majority of a webpage's file size. Optimizing images is crucial for mobile-first development, where users may have slower connections and limited data plans.
+
+## Why Image Optimization Matters
+
+Poor image optimization directly impacts user experience:
+
+- **Load Time**: Large images slow down page loading, especially on mobile networks
+- **Data Usage**: Unoptimized images consume unnecessary bandwidth
+- **Performance Metrics**: Images affect Core Web Vitals, particularly LCP (Largest Contentful Paint)
+- **SEO**: Page speed is a ranking factor for search engines
+
+<Note>
+According to HTTP Archive, images account for approximately 50% of the average webpage's total size.
+</Note>
+
+## Modern Image Formats: WebP
+
+WebP is a modern image format that provides superior compression while maintaining quality. This project uses the `<picture>` element to serve WebP with fallbacks.
+
+### Basic Picture Element
+
+```html title="index.html:282-295"
+<picture>
+  <source srcset="assets/project1.webp" type="image/webp" />
+  <img
+    src="https://res.cloudinary.com/ds7nxjrwz/image/upload/v1764182537/project3_h1cdha.jpg"
+    alt="Crypto Screener Application"
+    class="project-card__image"
+    srcset="
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/w_400/project3_h1cdha.jpg 400w,
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/w_600/project3_h1cdha.jpg 600w,
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/w_800/project3_h1cdha.jpg 800w
+    "
+    loading="lazy"
+  />
+</picture>
+```
+
+**How it works:**
+1. Browser checks if it supports WebP (type="image/webp")
+2. If yes, loads the WebP version from the local assets
+3. If no, falls back to the JPG with responsive sizes
+
+<Tip>
+WebP images are typically 25-35% smaller than JPEG at the same quality level. This translates to faster load times and reduced bandwidth usage.
+</Tip>
+
+### Advanced Multi-Format Support
+
+For testimonial avatars, the project provides both WebP and JPEG with multiple sizes:
+
+```html title="index.html:405-431"
+<picture>
+  <!-- WebP (primer intento del navegador) -->
+  <source
+    type="image/webp"
+    srcset="
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/f_webp,w_100/Illustration_Portfolio_Template_6_cwxhru.jpg 100w,
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/f_webp,w_200/Illustration_Portfolio_Template_6_cwxhru.jpg 200w
+    "
+  />
+
+  <!-- JPG fallback -->
+  <source
+    type="image/jpeg"
+    srcset="
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/f_jpg,w_100/Illustration_Portfolio_Template_6_cwxhru.jpg 100w,
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/f_jpg,w_200/Illustration_Portfolio_Template_6_cwxhru.jpg 200w
+    "
+  />
+
+  <!-- Fallback final -->
+  <img
+    src="https://res.cloudinary.com/ds7nxjrwz/image/upload/f_jpg,w_200/Illustration_Portfolio_Template_6_cwxhru.jpg"
+    alt="Evren Shah"
+    class="testimonial-card__avatar"
+    loading="lazy"
+  />
+</picture>
+```
+
+<Note>
+This approach provides multiple optimization layers: format (WebP vs JPEG), size (100w vs 200w), and automatic fallback for older browsers.
+</Note>
+
+## Responsive Images with srcset
+
+The `srcset` attribute allows browsers to choose the most appropriate image size based on the device's screen size and pixel density.
+
+### Syntax Breakdown
+
+```html
+srcset="
+  https://example.com/image-400.jpg 400w,
+  https://example.com/image-600.jpg 600w,
+  https://example.com/image-800.jpg 800w
+"
+```
+
+The `400w`, `600w`, `800w` descriptors tell the browser the actual width of each image file.
+
+### Real-World Example
+
+```html title="index.html:357-372"
+<picture>
+  <source srcset="assets/project3.webp" type="image/webp" />
+  <img
+    src="https://res.cloudinary.com/ds7nxjrwz/image/upload/w_1000/project1_ondout.jpg"
+    alt="Blog Website Template"
+    class="project-card__image"
+    srcset="
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/w_400/project1_ondout.jpg 400w,
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/w_600/project1_ondout.jpg 600w,
+      https://res.cloudinary.com/ds7nxjrwz/image/upload/w_800/project1_ondout.jpg 800w
+    "
+    loading="lazy"
+  />
+</picture>
+```
+
+**Benefits:**
+- Mobile devices (320-480px wide) load the 400w version
+- Tablets (768-1024px) load the 600w version
+- Desktop displays load the 800w version
+- High-DPI displays automatically get larger versions for crisp rendering
+
+<Tip>
+Use Cloudinary, Imgix, or similar CDNs to automatically generate and serve multiple image sizes. This saves development time and ensures optimal delivery.
+</Tip>
+
+## Lazy Loading
+
+Lazy loading defers loading of images until they're about to enter the viewport, dramatically improving initial page load time.
+
+### Native Lazy Loading
+
+The project uses the native `loading="lazy"` attribute:
+
+```html title="index.html:293"
+<img
+  src="..."
+  alt="Crypto Screener Application"
+  class="project-card__image"
+  loading="lazy"
+/>
+```
+
+```html title="index.html:329"
+<img
+  src="..."
+  alt="Euphoria - Ecommerce (Apparels) Website Template"
+  class="project-card__image"
+  loading="lazy"
+/>
+```
+
+<Note>
+Native lazy loading is supported in all modern browsers (Chrome 77+, Firefox 75+, Safari 15.4+, Edge 79+). No JavaScript required!
+</Note>
+
+### When NOT to Lazy Load
+
+The hero image uses `fetchpriority="high"` instead:
+
+```html title="index.html:54-60"
+<img
+  class="hero__image"
+  src="assets/hero.svg"
+  alt="Girl working on a laptop"
+  fetchpriority="high"
+  width="300"
+  height="300"
+/>
+```
+
+<Warning>
+Never lazy load above-the-fold images (especially LCP elements). This delays the most important content and hurts performance metrics.
+</Warning>
+
+**Use `fetchpriority="high"` for:**
+- Hero images
+- Logo in header
+- Any image likely to be the LCP element
+
+**Use `loading="lazy"` for:**
+- Images below the fold
+- Gallery images
+- Testimonial avatars
+- Footer images
+
+## Explicit Dimensions
+
+Providing width and height attributes prevents layout shift as images load:
+
+```html title="index.html:58-59"
+width="300"
+height="300"
+```
+
+Without dimensions, the browser doesn't reserve space for the image, causing content to jump when the image loads (poor CLS score).
+
+<Tip>
+Always specify width and height attributes, even if you're using CSS to make images responsive. Modern browsers calculate the aspect ratio automatically.
+</Tip>
+
+## Image CDN Benefits
+
+The project leverages Cloudinary CDN with URL-based transformations:
+
+```html
+<!-- Original image -->
+https://res.cloudinary.com/ds7nxjrwz/image/upload/project3_h1cdha.jpg
+
+<!-- Resized to 400px width -->
+https://res.cloudinary.com/ds7nxjrwz/image/upload/w_400/project3_h1cdha.jpg
+
+<!-- WebP format at 100px -->
+https://res.cloudinary.com/ds7nxjrwz/image/upload/f_webp,w_100/Illustration_Portfolio_Template_6_cwxhru.jpg
+```
+
+**CDN advantages:**
+- Automatic format conversion (JPEG → WebP)
+- On-the-fly resizing (no manual image processing)
+- Global edge caching (faster delivery worldwide)
+- Automatic quality optimization
+
+## Performance Impact
+
+Let's compare the image optimization strategies:
+
+| Strategy | Without Optimization | With Optimization | Savings |
+|----------|---------------------|-------------------|----------|
+| Format | JPEG (100KB) | WebP (65KB) | 35% |
+| Responsive | 1200px (150KB) | 400px (30KB) on mobile | 80% |
+| Lazy Load | All loaded (500KB) | Only visible (150KB) | 70% |
+
+<Note>
+Combining these techniques can reduce image bandwidth by 80-90% for mobile users, resulting in significantly faster load times.
+</Note>
+
+## CSS Optimization for Images
+
+The project uses efficient CSS to display images:
+
+```css title="global.css:455-459"
+.project-card__image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+```
+
+```css title="global.css:562-566"
+.testimonial-card__avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+```
+
+<Tip>
+Use `object-fit: cover` to ensure images fill their containers without distortion, especially important for user-generated content.
+</Tip>
+
+## Best Practices Summary
+
+### Do:
+- ✅ Use WebP format with JPEG/PNG fallbacks
+- ✅ Implement responsive images with srcset
+- ✅ Lazy load below-the-fold images
+- ✅ Provide explicit width and height
+- ✅ Use CDNs for automatic optimization
+- ✅ Set fetchpriority="high" for hero images
+
+### Don't:
+- ❌ Lazy load above-the-fold images
+- ❌ Serve desktop-sized images to mobile users
+- ❌ Forget alt text for accessibility
+- ❌ Use PNG for photos (use WebP/JPEG instead)
+- ❌ Skip dimensions (causes layout shift)
+
+## Tools and Resources
+
+- [Squoosh](https://squoosh.app/) - Online image optimization tool
+- [Cloudinary](https://cloudinary.com/) - Image CDN and transformation service
+- [WebPageTest](https://www.webpagetest.org/) - Test image loading performance
+- [Can I Use: WebP](https://caniuse.com/webp) - Check browser support
+
+<Tip>
+Use Chrome DevTools' Network panel to audit image sizes and formats. Look for opportunities to reduce file sizes or switch to better formats.
+</Tip>

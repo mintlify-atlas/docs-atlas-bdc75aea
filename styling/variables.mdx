@@ -1,0 +1,128 @@
+---
+title: CSS Variables
+description: CSS custom properties for colors, spacing, and layout constraints
+---
+
+The Mobile First Course uses CSS custom properties (variables) defined in `variables.css` to maintain a consistent design system across all components.
+
+## Color Variables
+
+### Primary Colors
+
+These are the foundational colors used throughout the application:
+
+```css
+--primary-black: #000000;
+--primary-neutral: #404040;
+--primary-white: #FFFFFF;
+```
+
+**Usage example** from `global.css:56`:
+```css
+.header__title {
+  color: var(--primary-black);
+}
+```
+
+### Zinc Scale
+
+The zinc color scale provides various shades of gray for secondary UI elements:
+
+```css
+--zinc-100: #f4f4f5;
+--zinc-200: #e4e4e7;
+--zinc-300: #d4d4d8;
+--zinc-500: #71717a;
+--zinc-800: #27272a;
+```
+
+**Usage example** from `global.css:481`:
+```css
+.project-card__description {
+  color: var(--zinc-300);
+  line-height: 1.5;
+}
+```
+
+### Error Colors
+
+For validation and error states:
+
+```css
+--error-500: #ef4444;
+```
+
+## Spacing Variables
+
+The spacing system uses a consistent 4px-based scale:
+
+```css
+--spacing-4: 4px;
+--spacing-8: 8px;
+--spacing-12: 12px;
+--spacing-16: 16px;
+--spacing-20: 20px;
+--spacing-24: 24px;
+--spacing-28: 28px;
+--spacing-32: 32px;
+--spacing-36: 36px;
+--spacing-40: 40px;
+```
+
+**Usage example** from `global.css:27`:
+```css
+.section-container {
+  padding: var(--spacing-40) var(--spacing-16);
+  gap: var(--spacing-32);
+}
+```
+
+## Layout Constraints
+
+### Max Width
+
+Defines the maximum content width for the entire site:
+
+```css
+--max-width: 1280px;
+```
+
+**Usage example** from `global.css:28`:
+```css
+.section-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+```
+
+### Outline Width
+
+Responsive outline width for the `.outlined` text effect:
+
+```css
+--outline-width: 2px;
+```
+
+On tablets and larger screens (768px+):
+```css
+--outline-width: 4px;
+```
+
+**Usage example** from `global.css:9-17`:
+```css
+.outlined {
+  text-shadow: var(--outline-width) 0 var(--primary-black),
+    calc(var(--outline-width) * -1) 0 var(--primary-black),
+    0 var(--outline-width) var(--primary-black),
+    0 calc(var(--outline-width) * -1) var(--primary-black),
+    /* ... more shadow layers */
+}
+```
+
+## Best Practices
+
+1. **Always use variables** instead of hardcoded values for consistency
+2. **Use spacing variables** to maintain rhythm in your layouts
+3. **Leverage calc()** with spacing variables for custom spacing needs
+4. **Stick to the color palette** defined in the variables for brand consistency

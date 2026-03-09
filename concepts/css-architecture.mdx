@@ -1,0 +1,430 @@
+---
+title: "CSS Architecture"
+description: "Understand the CSS structure, organization patterns, and naming conventions used in the project"
+---
+
+## CSS File Structure
+
+The project uses a modular CSS architecture with three separate stylesheets, each serving a specific purpose:
+
+```
+css/
+├── reset.css       # Browser normalization
+├── variables.css   # Design tokens
+└── global.css      # Component styles
+```
+
+<Note>
+This separation creates a clear hierarchy: reset styles, design system tokens, then component implementations.
+</Note>
+
+## Load Order Matters
+
+The HTML loads stylesheets in a specific order:
+
+```html index.html:20-22
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/variables.css" />
+<link rel="stylesheet" href="css/global.css" />
+```
+
+This order ensures:
+1. **Reset** - Normalize browser defaults first
+2. **Variables** - Define design tokens
+3. **Global** - Apply component styles using those tokens
+
+## reset.css: Browser Normalization
+
+The reset file removes default browser styles for consistency:
+
+```css reset.css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+ul {
+  list-style: none;
+}
+```
+
+### Why Reset Styles?
+
+Browsers apply default styles inconsistently. A reset ensures:
+- No unexpected margins or padding
+- `box-sizing: border-box` for predictable sizing
+- Clean slate for custom styling
+
+<Tip>
+Using `box-sizing: border-box` means `width` includes padding and borders, making layouts more predictable.
+</Tip>
+
+## variables.css: Design Tokens
+
+CSS custom properties create a centralized design system:
+
+```css variables.css:1-32
+:root {
+  /* Primary Colors */
+  --primary-black: #000000;
+  --primary-neutral: #404040;
+  --primary-white: #FFFFFF;
+
+  /* Zinc Scale */
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-500: #71717a;
+  --zinc-800: #27272a;
+
+  /* Error */
+  --error-500: #ef4444;
+
+  /* Spacing Scale */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-36: 36px;
+  --spacing-40: 40px;
+
+  --outline-width: 2px;
+  --max-width: 1280px;
+}
+```
+
+### Design System Benefits
+
+<CardGroup cols={2}>
+  <Card title="Single Source of Truth" icon="database">
+    Change a color once, update everywhere it's used
+  </Card>
+  <Card title="Consistency" icon="circle-check">
+    All spacing uses the same 4px-based scale
+  </Card>
+  <Card title="Maintainability" icon="wrench">
+    Easy to adjust designs without hunting through CSS
+  </Card>
+  <Card title="Semantic Naming" icon="tag">
+    Names describe purpose, not appearance
+  </Card>
+</CardGroup>
+
+### Responsive Variables
+
+Some variables change at breakpoints:
+
+```css variables.css:34-38
+@media (min-width: 768px) {
+  :root {
+    --outline-width: 4px;
+  }
+}
+```
+
+The outline effect on text becomes thicker on larger screens for visual impact.
+
+## global.css: Component Styles
+
+The main stylesheet contains all component implementations:
+
+### Organization Pattern
+
+```css
+/* Utility Classes */
+.outlined { ... }
+.section-title { ... }
+.section-container { ... }
+
+/* Header Section */
+.header { ... }
+.header__brand { ... }
+.header__nav { ... }
+
+/* Hero Section */
+.hero { ... }
+.hero__content { ... }
+.hero__title { ... }
+
+/* And so on... */
+```
+
+Components are grouped by section with clear comments:
+
+```css global.css:36
+/* --- HEADER SECTION --- */
+```
+
+```css global.css:124
+/* --- HERO SECTION --- */
+```
+
+<Note>
+This organization makes finding and updating component styles straightforward. Each section comment acts as a visual bookmark.
+</Note>
+
+## BEM Naming Convention
+
+The project uses a BEM-like (Block Element Modifier) naming pattern:
+
+```
+.block              // Component root
+.block__element     // Child element
+.block--modifier    // Variation
+```
+
+### Real Examples
+
+**Header Component:**
+```css
+.header                    // Block
+.header__brand            // Element
+.header__logo             // Element
+.header__nav              // Element
+.header__nav--active      // Modifier
+```
+
+**Skill Card Component:**
+```css
+.skill-card               // Block
+.skill-card__icon         // Element
+.skill-card__label        // Element
+```
+
+**Project Card Component:**
+```css
+.project-card             // Block
+.project-card__image      // Element
+.project-card__title      // Element
+.project-card--reverse    // Modifier
+```
+
+### Why BEM?
+
+<Accordion title="Clear Relationships">
+The naming immediately shows which elements belong to which components.
+</Accordion>
+
+<Accordion title="Avoids Nesting">
+Flat structure prevents specificity wars and makes styles predictable.
+</Accordion>
+
+<Accordion title="Self-Documenting">
+Class names describe structure and purpose without looking at HTML.
+</Accordion>
+
+<Accordion title="No Specificity Issues">
+All selectors have equal specificity, avoiding `!important` hacks.
+</Accordion>
+
+## Utility-First Patterns
+
+Some classes are reusable utilities:
+
+### Section Container
+
+```css global.css:26-34
+.section-container {
+  padding: var(--spacing-40) var(--spacing-16);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32);
+}
+```
+
+Used by every major section for consistent spacing and max-width:
+
+```html
+<section class="hero">
+  <div class="section-container">
+    <!-- Content -->
+  </div>
+</section>
+```
+
+### Outlined Text Effect
+
+```css global.css:5-18
+.outlined {
+  font-weight: 800;
+  color: var(--primary-white);
+  text-shadow:
+    var(--outline-width) 0 var(--primary-black),
+    calc(var(--outline-width) * -1) 0 var(--primary-black),
+    /* ... 8 shadows total for outline effect ... */
+}
+```
+
+Applied to text that needs the distinctive outline style:
+
+```html
+Frontend <span class="outlined">Developer</span>
+```
+
+## Mobile-First Media Queries
+
+All media queries use `min-width` for progressive enhancement:
+
+```css
+/* Mobile styles (no media query) */
+.element {
+  font-size: 16px;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .element {
+    font-size: 18px;
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 1024px) {
+  .element {
+    font-size: 20px;
+  }
+}
+```
+
+<Tip>
+Mobile styles are the default with no media query. This ensures they work even if media queries fail.
+</Tip>
+
+## Component Encapsulation
+
+Each component's styles are scoped with class names:
+
+```css
+/* Hero styles don't affect other sections */
+.hero { ... }
+.hero__title { ... }
+.hero__image { ... }
+
+/* Project styles are separate */
+.project-card { ... }
+.project-card__title { ... }
+.project-card__image { ... }
+```
+
+No styles bleed between components, even though they use the same element types (h1, img, etc.).
+
+## Commented Alternatives
+
+The CSS includes commented-out alternative approaches:
+
+```css global.css:256-273
+/* .skills__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-20);
+}
+
+@media (min-width: 768px) {
+  .skills__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-32);
+  }
+}
+
+@media (min-width: 1024px) {
+  .skills__grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+} */
+```
+
+This shows the original approach before switching to `auto-fit`. Great for learning different solutions!
+
+## Performance Considerations
+
+### Single CSS Bundle
+
+All three CSS files are separate in development but could be combined in production:
+
+```html
+<!-- Development: separate files for organization -->
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/variables.css" />
+<link rel="stylesheet" href="css/global.css" />
+
+<!-- Production: combine for fewer HTTP requests -->
+<link rel="stylesheet" href="css/styles.min.css" />
+```
+
+### Efficient Selectors
+
+All selectors use single class names for maximum performance:
+
+```css
+/* ✅ Fast: single class */
+.skill-card { ... }
+
+/* ❌ Slow: deeply nested */
+.skills .skills__grid .skill-card { ... }
+```
+
+### No Unused Styles
+
+Every style corresponds to an element in index.html. No bloat or unused code.
+
+## Best Practices Demonstrated
+
+<CardGroup cols={2}>
+  <Card title="Modular Files" icon="folder-tree">
+    Separate concerns: reset, variables, components
+  </Card>
+  <Card title="Custom Properties" icon="palette">
+    Centralized design system with CSS variables
+  </Card>
+  <Card title="BEM Naming" icon="tags">
+    Clear, predictable class names
+  </Card>
+  <Card title="Mobile-First" icon="mobile">
+    Default styles for mobile, enhance for desktop
+  </Card>
+  <Card title="Comments" icon="comment">
+    Section markers for easy navigation
+  </Card>
+  <Card title="Flat Specificity" icon="equals">
+    Single class selectors, no specificity wars
+  </Card>
+</CardGroup>
+
+## Quick Reference
+
+| File | Purpose | Key Features |
+|------|---------|-------------|
+| reset.css | Browser normalization | Zero margins/padding, box-sizing |
+| variables.css | Design tokens | Colors, spacing, breakpoints |
+| global.css | Component styles | BEM naming, mobile-first |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="CSS Variables" icon="swatchbook" href="/styling/variables">
+    Explore all custom properties in detail
+  </Card>
+  <Card title="Responsive Breakpoints" icon="mobile-screen" href="/styling/responsive-breakpoints">
+    Learn the breakpoint strategy
+  </Card>
+</CardGroup>

@@ -1,0 +1,234 @@
+---
+title: Hero Component
+description: Main landing section with title, description, image, and social links
+---
+
+## Overview
+
+The hero section is the first content users see when visiting the portfolio. It introduces the developer with a prominent headline, description, profile image, and social media links.
+
+## Key Features
+
+- Responsive layout that switches from mobile (stacked) to desktop (side-by-side)
+- Large, attention-grabbing headline with styled text
+- Professional description
+- Social media link buttons
+- Optimized hero image with fetchpriority="high"
+
+## HTML Structure
+
+The hero section uses a flexible container layout:
+
+```html
+<section class="hero">
+  <div class="section-container">
+    <img
+      class="hero__image"
+      src="assets/hero.svg"
+      alt="Girl working on a laptop"
+      fetchpriority="high"
+      width="300"
+      height="300"
+    />
+    <div class="hero__content">
+      <h1 class="hero__title">
+        Hello I'am <strong>Flora Sheen</strong><br />
+        Frontend <span class="outlined">Developer</span><br />
+        Based In <strong>India</strong>
+      </h1>
+      <p class="hero__description">
+        I'm Flora Sheen Lorem Ipsum is simply dummy text of the printing
+        and typesetting industry. Lorem Ipsum has been the industry's
+        standard dummy text ever since the 1500s, when an unknown printer
+        took a galley of type and scrambled it to specimen book.
+      </p>
+      <div class="hero__social">
+        <a href="#" class="social-link" aria-label="Facebook">
+          <img src="assets/facebook.svg" alt="Facebook" />
+        </a>
+        <a href="#" class="social-link" aria-label="Reddit">
+          <img src="assets/reddit.svg" alt="Reddit" />
+        </a>
+        <a href="#" class="social-link" aria-label="Twitter">
+          <img src="assets/twitter.svg" alt="Twitter" />
+        </a>
+        <a href="#" class="social-link" aria-label="Discord">
+          <img src="assets/discord.svg" alt="Discord" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+## CSS Classes
+
+### Hero Container
+
+<Accordion title=".hero">
+  The main hero section with flexible layout:
+  
+  ```css
+  .hero {
+    padding: var(--spacing-40) var(--spacing-16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-40);
+  }
+  ```
+</Accordion>
+
+### Content Area
+
+<Accordion title=".hero__content">
+  Contains the text and social links:
+  
+  ```css
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-32);
+  }
+  ```
+</Accordion>
+
+### Title Styling
+
+<Accordion title=".hero__title">
+  Responsive typography with emphasis:
+  
+  ```css
+  .hero__title {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 400;
+    color: var(--primary-black);
+  }
+
+  .hero__title strong {
+    font-weight: 800;
+  }
+  ```
+  
+  The title uses the `.outlined` class for the "Developer" text, creating an outlined effect.
+</Accordion>
+
+### Image
+
+<Accordion title=".hero__image">
+  Responsive image sizing:
+  
+  ```css
+  .hero__image {
+    width: 100%;
+    height: auto;
+    max-height: 30vh;
+  }
+  ```
+</Accordion>
+
+### Social Links
+
+<Accordion title=".hero__social & .social-link">
+  Interactive social media buttons with hover effects:
+  
+  ```css
+  .hero__social {
+    display: flex;
+    gap: var(--spacing-24);
+    margin-top: var(--spacing-32);
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--primary-black);
+    border-radius: 4px;
+    background: var(--primary-white);
+    transition: all 0.2s ease;
+    color: var(--primary-black);
+  }
+
+  .social-link:hover {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    transform: translateY(-2px);
+  }
+
+  .social-link:hover img {
+    filter: invert(1);
+  }
+
+  .social-link img {
+    width: 24px;
+    height: 24px;
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 768px)">
+    - Vertical stack layout
+    - Image displayed above content
+    - Content centered
+    - Max image height: 30vh
+    
+    The default mobile layout:
+    ```css
+    .hero {
+      flex-direction: column;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 768px)">
+    - Side-by-side layout
+    - Image on the right, content on the left
+    - Better use of horizontal space
+    
+    ```css
+    @media (min-width: 768px) {
+      .hero {
+        flex-direction: row-reverse;
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Special Text Effect
+
+The "Developer" text uses the `.outlined` utility class for a distinctive outlined text effect:
+
+```css
+.outlined {
+  font-weight: 800;
+  color: var(--primary-white);
+  text-shadow: var(--outline-width) 0 var(--primary-black),
+    calc(var(--outline-width) * -1) 0 var(--primary-black),
+    0 var(--outline-width) var(--primary-black),
+    0 calc(var(--outline-width) * -1) var(--primary-black),
+    var(--outline-width) var(--outline-width) var(--primary-black),
+    calc(var(--outline-width) * -1) calc(var(--outline-width) * -1)
+      var(--primary-black),
+    var(--outline-width) calc(var(--outline-width) * -1) var(--primary-black),
+    calc(var(--outline-width) * -1) var(--outline-width) var(--primary-black);
+}
+```
+
+## Performance Optimizations
+
+<Note>
+  The hero image uses `fetchpriority="high"` to prioritize loading since it's above the fold. Width and height attributes are specified to prevent layout shift.
+</Note>
+
+## Implementation Location
+
+The hero section is located at lines 50-89 in index.html, with styles at lines 124-204 in global.css.

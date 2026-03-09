@@ -1,0 +1,467 @@
+---
+title: Performance Optimization
+description: Achieve excellent mobile performance through efficient CSS, minimal JavaScript, and progressive enhancement strategies
+---
+
+# Performance Optimization
+
+Performance is critical for mobile-first websites. Users on slower connections and less powerful devices need fast, responsive experiences. This project demonstrates several performance optimization strategies that work together to create a lightning-fast website.
+
+## Why Performance Matters
+
+Performance directly impacts business metrics:
+
+- **User Experience**: 53% of mobile users abandon sites that take over 3 seconds to load
+- **Conversion Rates**: A 1-second delay can reduce conversions by 7%
+- **SEO**: Google uses page speed as a ranking factor
+- **Accessibility**: Faster sites work better on low-end devices and slow networks
+
+<Note>
+Core Web Vitals (LCP, FID, CLS) are now key metrics for both user experience and SEO.
+</Note>
+
+## Efficient CSS Architecture
+
+This project uses a lean, modular CSS architecture that minimizes file size and rendering overhead.
+
+### Modular CSS Structure
+
+The CSS is split into three focused files:
+
+```html title="index.html:20-22"
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/variables.css" />
+<link rel="stylesheet" href="css/global.css" />
+```
+
+**Benefits of this approach:**
+- **reset.css**: Normalizes browser defaults (loaded once, cached forever)
+- **variables.css**: CSS custom properties for theming (39 lines, minimal overhead)
+- **global.css**: Component styles (765 lines, but no unused CSS)
+
+### CSS Variables for Efficiency
+
+The project uses CSS custom properties for consistent, maintainable styling:
+
+```css title="variables.css:1-32"
+:root {
+  /* Primary */
+  --primary-black: #000000;
+  --primary-neutral: #404040;
+  --primary-white: #FFFFFF;
+
+  /* Zinc */
+  --zinc-100: #f4f4f5;
+  --zinc-300: #d4d4d8;
+  --zinc-500: #71717a;
+  --zinc-800: #27272a;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+
+  --outline-width: 2px;
+  --max-width: 1280px;
+}
+```
+
+<Tip>
+CSS variables reduce file size through reuse and enable runtime theme changes without JavaScript.
+</Tip>
+
+### No Unused CSS
+
+Every CSS rule in the project is actively used. There are no:
+- Unused utility classes
+- Overridden styles
+- Dead code from frameworks
+
+This keeps the total CSS under 30KB uncompressed, which gzips to approximately 7-8KB.
+
+### Efficient Selectors
+
+The project uses simple, performant CSS selectors:
+
+```css title="global.css:213-228"
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  aspect-ratio: 1/1;
+  padding: var(--spacing-24);
+  border-radius: 4px;
+  background: var(--primary-white);
+  border: 2px solid var(--primary-black);
+  transition: transform 0.15s ease;
+}
+
+.skill-card:hover {
+  background: var(--primary-black);
+  color: var(--primary-white);
+  transform: translateY(-2px);
+}
+```
+
+<Note>
+Simple class selectors like `.skill-card` are faster than complex nested selectors like `.section .container .card > .content`.
+</Note>
+
+### Modern CSS Features
+
+The project leverages modern CSS for responsive layouts without media queries:
+
+```css title="global.css:276-280"
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-20);
+}
+```
+
+```css title="global.css:433-436"
+.project-list {
+  container-name: project-list;
+  container-type: inline-size;
+}
+```
+
+<Tip>
+Container queries allow components to adapt to their container's size, enabling truly modular responsive design.
+</Tip>
+
+## Minimal JavaScript Approach
+
+The entire site uses only 18 lines of JavaScript for menu functionality. This minimal approach has significant performance benefits.
+
+### Complete JavaScript File
+
+```javascript title="main.js:1-18"
+const toggleBtn = document.querySelector('.header__toggle');
+const nav = document.querySelector('.header__nav');
+const navLinks = document.querySelectorAll('.header__nav a');
+
+toggleBtn.addEventListener('click', () => {
+  nav.classList.toggle('header__nav--active');
+  const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+  toggleBtn.setAttribute('aria-expanded', !isExpanded);
+});
+
+// Close menu when clicking a link
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('header__nav--active');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+```
+
+**Performance impact:**
+- No framework overhead (React, Vue would add 30-100KB)
+- No build process required
+- Instant parsing and execution
+- No hydration delay
+
+<Warning>
+Before adding a JavaScript framework, ask: "Do I really need this?" Often, vanilla JS or CSS can accomplish the same goal with better performance.
+</Warning>
+
+### CSS-Driven Interactivity
+
+Most interactions use CSS instead of JavaScript:
+
+```css title="global.css:185-193"
+.social-link:hover {
+  background: var(--primary-black);
+  color: var(--primary-white);
+  transform: translateY(-2px);
+}
+
+.social-link:hover img {
+  filter: invert(1);
+}
+```
+
+```css title="global.css:230-243"
+.skill-card:hover {
+  background: var(--primary-black);
+  color: var(--primary-white);
+  transform: translateY(-2px);
+}
+
+.skill-card:hover .skill-card__icon img {
+  filter: invert(1);
+}
+
+.skill-card:hover .skill-card__label {
+  color: var(--primary-white);
+}
+```
+
+<Tip>
+CSS transitions and :hover states are hardware-accelerated and perform better than JavaScript-based animations.
+</Tip>
+
+## Progressive Enhancement
+
+The site follows progressive enhancement principles: it works without JavaScript and enhances with it.
+
+### Desktop Navigation (No JS Required)
+
+```css title="global.css:86-122"
+@media (min-width: 1022px) {
+  .header__nav,
+  .header__cta {
+    display: block;
+  }
+  
+  .header__toggle {
+    display: none;
+  }
+
+  .header__nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-32);
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+```
+
+On desktop, the navigation is always visible—no JavaScript needed. JavaScript only enhances the mobile menu.
+
+<Note>
+Progressive enhancement ensures your site works for all users, including those with JavaScript disabled or on slow connections where JS hasn't loaded yet.
+</Note>
+
+## Font Loading Strategy
+
+The project uses Google Fonts with performance optimizations:
+
+```html title="index.html:14-19"
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap"
+  rel="stylesheet"
+/>
+```
+
+**Optimization breakdown:**
+1. **preconnect**: Establishes early connection to Google's servers
+2. **display=swap**: Shows fallback font immediately, swaps when custom font loads
+3. **Variable font**: Single file supports multiple weights (100-800)
+
+<Tip>
+Variable fonts are more efficient than loading multiple font weights. Instead of loading 4-5 separate files, you load one file that supports all weights.
+</Tip>
+
+### Font Display Strategy
+
+```html
+display=swap
+```
+
+This tells the browser to:
+1. Show text immediately in a fallback font
+2. Swap to the custom font when it loads
+3. Never block text rendering waiting for fonts
+
+<Warning>
+Avoid `display=block` which hides text until fonts load. This creates "invisible text" periods and poor user experience.
+</Warning>
+
+## Image Optimization Impact on Performance
+
+Image optimization (covered in detail in the Image Optimization guide) is critical for performance:
+
+```html title="index.html:282-295"
+<picture>
+  <source srcset="assets/project1.webp" type="image/webp" />
+  <img
+    src="https://res.cloudinary.com/.../project3_h1cdha.jpg"
+    srcset="
+      https://res.cloudinary.com/.../w_400/project3_h1cdha.jpg 400w,
+      https://res.cloudinary.com/.../w_600/project3_h1cdha.jpg 600w,
+      https://res.cloudinary.com/.../w_800/project3_h1cdha.jpg 800w
+    "
+    loading="lazy"
+  />
+</picture>
+```
+
+**Performance benefits:**
+- WebP reduces image size by 25-35%
+- Responsive images serve appropriate sizes
+- Lazy loading defers offscreen images
+
+Together, these reduce image payload by 80-90% on mobile.
+
+## Critical Resource Prioritization
+
+The hero image uses `fetchpriority="high"` to prioritize loading:
+
+```html title="index.html:54-60"
+<img
+  class="hero__image"
+  src="assets/hero.svg"
+  alt="Girl working on a laptop"
+  fetchpriority="high"
+  width="300"
+  height="300"
+/>
+```
+
+This ensures the Largest Contentful Paint (LCP) element loads as quickly as possible.
+
+<Note>
+The LCP metric measures when the largest visible element finishes rendering. For many sites, this is the hero image.
+</Note>
+
+## Responsive Design Performance
+
+The project uses efficient responsive design patterns:
+
+### Fluid Typography
+
+```css title="global.css:20-24"
+.section-title {
+  font-weight: 400;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  text-align: center;
+}
+```
+
+```css title="global.css:142-147"
+.hero__title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 400;
+  color: var(--primary-black);
+}
+```
+
+The `clamp()` function creates fluid typography that scales smoothly without JavaScript or multiple media queries.
+
+### Minimal Media Queries
+
+The project uses only a few strategic media queries:
+
+```css title="variables.css:34-38"
+@media (min-width: 768px) {
+  :root {
+    --outline-width: 4px;
+  }
+}
+```
+
+Most responsive behavior is handled through:
+- Flexbox and Grid auto-layout
+- CSS `clamp()` for fluid sizing
+- Container queries for component-level responsiveness
+
+<Tip>
+Fewer media queries mean less CSS to parse and apply. Modern CSS layout features reduce the need for breakpoint-based designs.
+</Tip>
+
+## JavaScript Loading Strategy
+
+The script tag is placed at the end of the HTML:
+
+```html title="index.html:647"
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>
+```
+
+This ensures:
+- HTML is fully parsed before script executes
+- Page renders immediately (no render-blocking JS)
+- DOM elements are available when script runs
+
+<Note>
+For larger projects, consider using `defer` or `async` attributes, but for small scripts like this, end-of-body placement is simplest and most reliable.
+</Note>
+
+## Performance Budget
+
+Here's the approximate file size breakdown:
+
+| Resource | Size (Uncompressed) | Size (Gzipped) |
+|----------|---------------------|----------------|
+| HTML | ~14KB | ~4KB |
+| CSS (all) | ~30KB | ~8KB |
+| JavaScript | ~0.5KB | ~0.3KB |
+| Above-fold images | ~25KB (WebP) | N/A |
+| **Total (initial load)** | **~70KB** | **~37KB** |
+
+<Note>
+With gzip compression and caching, returning visitors load only changed resources, often under 10KB.
+</Note>
+
+## Core Web Vitals Optimization
+
+### Largest Contentful Paint (LCP)
+- Hero image optimized with `fetchpriority="high"`
+- WebP format reduces image size
+- Explicit dimensions prevent layout shift
+- No render-blocking resources
+
+**Target: < 2.5 seconds**
+
+### First Input Delay (FID)
+- Minimal JavaScript (18 lines)
+- No heavy frameworks
+- Simple event listeners
+- Fast parsing and execution
+
+**Target: < 100 milliseconds**
+
+### Cumulative Layout Shift (CLS)
+- All images have width/height attributes
+- No dynamic content injection above the fold
+- CSS reserves space for all elements
+- Font display swap prevents layout changes
+
+**Target: < 0.1**
+
+<Tip>
+Use Chrome DevTools Lighthouse to measure Core Web Vitals. Aim for green scores (90+) on mobile.
+</Tip>
+
+## Best Practices Summary
+
+### Do:
+- ✅ Keep CSS modular and minimal
+- ✅ Use vanilla JavaScript when possible
+- ✅ Implement progressive enhancement
+- ✅ Optimize fonts with preconnect and display=swap
+- ✅ Prioritize critical resources
+- ✅ Use modern CSS features (Grid, clamp, container queries)
+- ✅ Minimize media queries
+- ✅ Set explicit image dimensions
+
+### Don't:
+- ❌ Add frameworks without clear benefits
+- ❌ Include unused CSS
+- ❌ Block rendering with JavaScript
+- ❌ Load all fonts weights separately
+- ❌ Ignore Core Web Vitals
+- ❌ Skip compression and caching
+
+## Tools and Resources
+
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse) - Performance auditing tool
+- [WebPageTest](https://www.webpagetest.org/) - Detailed performance analysis
+- [Chrome DevTools Performance Tab](https://developer.chrome.com/docs/devtools/performance/) - Runtime performance profiling
+- [web.dev/vitals](https://web.dev/vitals/) - Core Web Vitals documentation
+
+<Note>
+Regularly audit your site's performance. What's fast today may slow down as you add features. Maintain a performance budget and test on real devices.
+</Note>

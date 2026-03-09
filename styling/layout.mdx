@@ -1,0 +1,230 @@
+---
+title: Layout Patterns
+description: Flexbox, Grid, Container Queries, and responsive layout techniques
+---
+
+The Mobile First Course uses modern CSS layout techniques including Flexbox, CSS Grid, and Container Queries.
+
+## The Section Container Pattern
+
+The `.section-container` class is the foundation for all major sections:
+
+```css
+.section-container {
+  padding: var(--spacing-40) var(--spacing-16);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32);
+}
+```
+
+This pattern:
+- Centers content with `margin: 0 auto`
+- Limits width to **1280px**
+- Adds consistent padding (40px top/bottom, 16px left/right)
+- Uses Flexbox for vertical stacking with 32px gap
+
+## Flexbox Layouts
+
+### Hero Section (Row-Reverse on Tablet)
+
+From `global.css:126-204`:
+
+```css
+.hero {
+  padding: var(--spacing-40) var(--spacing-16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-40);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    flex-direction: row-reverse;
+  }
+}
+```
+
+Mobile: Stacks vertically (image on top, content below)
+Tablet+: Switches to horizontal with image on right (`row-reverse`)
+
+### Testimonials Layout
+
+From `global.css:601-612`:
+
+```css
+@media (min-width: 768px) {
+  .testimonials__list {
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .testimonial-card {
+    flex: 1;
+    max-width: 380px;
+  }
+}
+```
+
+Cards stack vertically on mobile, then switch to equal-width columns on tablet.
+
+## CSS Grid Layouts
+
+### Skills Grid (Auto-Fit)
+
+From `global.css:276-307`:
+
+```css
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-20);
+}
+
+@media (min-width: 768px) {
+  .skills__grid {
+    gap: var(--spacing-32);
+  }
+}
+
+@media (min-width: 1024px) {
+  .skills__grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+```
+
+**Key features:**
+- `auto-fit`: Creates as many columns as will fit
+- `minmax(160px, 1fr)`: Each column is at least 160px, expands to fill space
+- Desktop (1024px+): Fixed 5-column layout
+
+### Experience Card Grid
+
+From `global.css:323-362`:
+
+```css
+.experience-card {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: var(--spacing-32);
+  grid-template-areas: 
+    'logo role'
+    'date date'
+    'description description';
+}
+
+@media (min-width: 768px) {
+  .experience-card {
+    grid-template-columns: 32px 1fr auto;
+    grid-template-areas: 
+      'logo role date'
+      'description description description';
+  }
+}
+```
+
+**Mobile layout:**
+```
+[logo] [role      ]
+[date            ]
+[description     ]
+```
+
+**Tablet layout:**
+```
+[logo] [role      ] [date]
+[description            ]
+```
+
+## Container Queries
+
+Container queries allow components to respond to their container's size, not just the viewport.
+
+### Projects Section
+
+From `global.css:433-501`:
+
+```css
+.project-list {
+  container-name: project-list;
+  container-type: inline-size;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-28);
+}
+
+@container project-list (min-width: 700px) {
+  .project-card {
+    flex-direction: row;
+  }
+
+  .project-card:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .project-card__content {
+    max-width: 50%;
+  }
+}
+```
+
+**How it works:**
+1. `.project-list` is defined as a container
+2. Project cards respond to the container's width, not the viewport
+3. When container reaches 700px, cards switch to horizontal layout
+4. Even cards reverse direction for visual variety
+
+<Note>
+Container queries are perfect for components that might be reused in different contexts (sidebars, modals, etc.)
+</Note>
+
+## Common Layout Patterns
+
+### Center Content with Max Width
+
+```css
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+```
+
+### Vertical Stack with Gap
+
+```css
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+}
+```
+
+### Equal Columns
+
+```css
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-20);
+}
+```
+
+## Best Practices
+
+1. **Use Flexbox** for one-dimensional layouts (rows or columns)
+2. **Use Grid** for two-dimensional layouts or when you need precise control
+3. **Use Container Queries** for component-level responsiveness
+4. **Mobile-first approach**: Start with column layout, add row layouts at breakpoints
+5. **Consistent spacing**: Always use spacing variables for gaps and padding
+6. **Center content**: Use `max-width` + `margin: 0 auto` for centered layouts

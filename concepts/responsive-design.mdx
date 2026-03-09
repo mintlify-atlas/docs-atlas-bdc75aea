@@ -1,0 +1,400 @@
+---
+title: "Responsive Design"
+description: "Master responsive layout techniques including Flexbox, Grid, and Container Queries used throughout the project"
+---
+
+## What is Responsive Design?
+
+Responsive design creates layouts that adapt fluidly to different screen sizes and orientations. Instead of fixed pixel widths, responsive designs use flexible grids, relative units, and media queries to provide optimal viewing experiences.
+
+<Note>
+Responsive design isn't just about making things "fit" on smaller screens—it's about crafting appropriate experiences for each context.
+</Note>
+
+## Core Responsive Techniques
+
+This project demonstrates three fundamental responsive layout approaches:
+
+<CardGroup cols={3}>
+  <Card title="Flexbox" icon="arrows-left-right">
+    One-dimensional layouts that flex and flow naturally
+  </Card>
+  <Card title="CSS Grid" icon="grid">
+    Two-dimensional layouts with precise control
+  </Card>
+  <Card title="Container Queries" icon="box">
+    Component-based responsive behavior
+  </Card>
+</CardGroup>
+
+## Flexbox for Flexible Layouts
+
+Flexbox excels at distributing space and aligning items in one dimension (row or column).
+
+### Hero Section Example
+
+The hero section uses Flexbox to stack content vertically on mobile, then switch to horizontal on tablet:
+
+```css global.css:126-204
+.hero {
+  padding: var(--spacing-40) var(--spacing-16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-40);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    flex-direction: row-reverse;
+  }
+}
+```
+
+<Tabs>
+  <Tab title="Mobile (< 768px)">
+    ```
+    [Image]
+    [Title]
+    [Description]
+    [Social Links]
+    ```
+    Content stacks vertically with consistent gap spacing.
+  </Tab>
+  <Tab title="Desktop (≥ 768px)">
+    ```
+    [Title, Description, Links]  [Image]
+    ```
+    Content flows horizontally with image on the right (row-reverse).
+  </Tab>
+</Tabs>
+
+### Social Links Pattern
+
+```css global.css:166-198
+.hero__social {
+  display: flex;
+  gap: var(--spacing-24);
+  margin-top: var(--spacing-32);
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: 2px solid var(--primary-black);
+  border-radius: 4px;
+}
+```
+
+The social links remain horizontal on all screen sizes, using Flexbox gap for consistent spacing.
+
+## CSS Grid for Complex Layouts
+
+Grid provides two-dimensional control, perfect for card grids and complex page layouts.
+
+### Skills Grid with Auto-Fit
+
+The skills section uses Grid's `auto-fit` to create a responsive grid without media queries:
+
+```css global.css:276-280
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-20);
+}
+```
+
+<Tip>
+`auto-fit` automatically calculates how many columns fit at any viewport width. The grid responds to available space without explicit breakpoints.
+</Tip>
+
+However, this project adds progressive disclosure to control how many items appear:
+
+```css global.css:282-307
+/* Mobile: 2 columns, 6 items */
+.skill-card:nth-child(n + 7) {
+  display: none;
+}
+
+/* Tablet: 4 columns, 8 items */
+@media (min-width: 768px) {
+  .skills__grid {
+    gap: var(--spacing-32);
+  }
+  .skill-card:nth-child(n + 7) {
+    display: flex;
+  }
+  .skill-card:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+/* Desktop: 5 columns, 10 items */
+@media (min-width: 1024px) {
+  .skills__grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .skill-card:nth-child(n + 9) {
+    display: flex;
+  }
+}
+```
+
+### Experience Cards with Grid Areas
+
+The experience section uses grid template areas for flexible, semantic layouts:
+
+```css global.css:316-362
+.experience-card {
+  padding: var(--spacing-32) var(--spacing-24);
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: var(--spacing-32);
+  grid-template-areas:
+    'logo role'
+    'date date'
+    'description description';
+}
+
+@media (min-width: 768px) {
+  .experience-card {
+    grid-template-columns: 32px 1fr auto;
+    grid-template-areas:
+      'logo role date'
+      'description description description';
+  }
+}
+```
+
+<Tabs>
+  <Tab title="Mobile Layout">
+    ```
+    [Logo] [Role        ]
+    [Date              ]
+    [Description       ]
+    ```
+    Two columns: logo and content stack vertically.
+  </Tab>
+  <Tab title="Desktop Layout">
+    ```
+    [Logo] [Role              ] [Date]
+    [Description                    ]
+    ```
+    Three columns: role stretches, date aligns right.
+  </Tab>
+</Tabs>
+
+## Container Queries
+
+Container queries allow components to respond to their container's size, not the viewport. This enables true component-based responsive design.
+
+### Projects Section Example
+
+```css global.css:433-501
+.project-list {
+  container-name: project-list;
+  container-type: inline-size;
+}
+
+@container project-list (min-width: 700px) {
+  .project-card {
+    flex-direction: row;
+  }
+
+  .project-card:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .project-card__content {
+    max-width: 50%;
+  }
+}
+```
+
+<Note>
+The project cards respond to the `.project-list` container width, not the viewport. This makes the component reusable in different layouts.
+</Note>
+
+**Benefits of Container Queries:**
+- Components adapt to their context, not global viewport
+- Reusable in sidebars, modals, or full-width layouts
+- True component encapsulation
+
+## Responsive Spacing
+
+This project uses CSS custom properties and responsive spacing strategies:
+
+### Fixed Spacing Scale
+
+```css variables.css:18-28
+--spacing-4: 4px;
+--spacing-8: 8px;
+--spacing-12: 12px;
+--spacing-16: 16px;
+--spacing-20: 20px;
+--spacing-24: 24px;
+--spacing-28: 28px;
+--spacing-32: 32px;
+--spacing-36: 36px;
+--spacing-40: 40px;
+```
+
+Instead of changing the values themselves, the project changes which spacing value is applied:
+
+```css global.css:276-289
+.skills__grid {
+  gap: var(--spacing-20);  /* Mobile: 20px */
+}
+
+@media (min-width: 768px) {
+  .skills__grid {
+    gap: var(--spacing-32);  /* Desktop: 32px */
+  }
+}
+```
+
+## Responsive Typography
+
+The project uses `clamp()` for fluid typography that scales smoothly:
+
+```css global.css:22-24
+.section-title {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+}
+```
+
+This creates typography that:
+- Never goes below 1.75rem (28px)
+- Scales with viewport width (5vw)
+- Never exceeds 2.5rem (40px)
+
+### Hero Title
+
+```css global.css:142-147
+.hero__title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 400;
+  color: var(--primary-black);
+}
+```
+
+<Tip>
+Use `clamp()` for smooth scaling between breakpoints. No media queries needed for typography!
+</Tip>
+
+## Responsive Images
+
+All images adapt to their containers:
+
+```css global.css:160-164
+.hero__image {
+  width: 100%;
+  height: auto;
+  max-height: 30vh;
+}
+```
+
+- `width: 100%` - fills container
+- `height: auto` - maintains aspect ratio
+- `max-height: 30vh` - prevents oversized images on mobile
+
+## Common Responsive Patterns
+
+### Stack to Row
+
+```css
+/* Mobile: stack */
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop: row */
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+```
+
+### Single to Multi-Column
+
+```css
+/* Mobile: 1 column */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+```
+
+### Show/Hide Content
+
+```css
+/* Mobile: hide navigation */
+.nav {
+  display: none;
+}
+
+/* Desktop: show navigation */
+@media (min-width: 1022px) {
+  .nav {
+    display: block;
+  }
+}
+```
+
+## Testing Responsive Designs
+
+<Steps>
+  <Step title="Use Browser DevTools">
+    Chrome/Firefox DevTools have responsive design modes with common device presets.
+  </Step>
+  <Step title="Test All Breakpoints">
+    Check 320px, 375px, 768px, 1024px, and 1440px widths at minimum.
+  </Step>
+  <Step title="Test Between Breakpoints">
+    Slowly resize the browser. The design should adapt smoothly, not break at odd sizes.
+  </Step>
+  <Step title="Test Real Devices">
+    Desktop simulators can't replicate real mobile performance, touch interactions, or network conditions.
+  </Step>
+</Steps>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Use Relative Units" icon="ruler">
+    Use `rem`, `em`, `%`, `vw`, `vh` instead of fixed pixels for flexibility
+  </Card>
+  <Card title="Test Edge Cases" icon="triangle-exclamation">
+    Test at 320px (small phones) and 2560px (large monitors)
+  </Card>
+  <Card title="Avoid Fixed Heights" icon="arrows-up-down">
+    Let content determine height. Use `min-height` if needed
+  </Card>
+  <Card title="Touch-Friendly Targets" icon="hand-pointer">
+    Buttons and links should be at least 44×44px on mobile
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="CSS Architecture" icon="sitemap" href="/concepts/css-architecture">
+    Learn how CSS is organized in this project
+  </Card>
+  <Card title="Responsive Breakpoints" icon="mobile-screen" href="/styling/responsive-breakpoints">
+    Deep dive into the project's breakpoint strategy
+  </Card>
+</CardGroup>

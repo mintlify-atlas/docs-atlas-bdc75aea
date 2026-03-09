@@ -1,0 +1,347 @@
+---
+title: Projects Component
+description: Alternating layout project cards with images and descriptions
+---
+
+## Overview
+
+The projects section showcases the developer's portfolio work using large project cards with alternating layouts. Each card features a project image, number, title, description, and call-to-action link.
+
+## Key Features
+
+- Dark background for visual impact
+- Alternating image/content layout (left-right, right-left)
+- Container queries for responsive behavior
+- Responsive images with srcset and picture elements
+- Numbered project cards
+- Interactive read more links
+
+## HTML Structure
+
+Each project card includes an image wrapper and content section:
+
+```html
+<section class="projects" id="projects">
+  <div class="section-container">
+    <h2 class="section-title">My <strong>Projects</strong></h2>
+    <div class="project-list">
+      <article class="project-card">
+        <div class="project-card__image-wrapper">
+          <picture>
+            <source srcset="assets/project1.webp" type="image/webp" />
+            <img
+              src="https://res.cloudinary.com/.../project3_h1cdha.jpg"
+              alt="Crypto Screener Application"
+              class="project-card__image"
+              srcset="
+                https://res.cloudinary.com/.../w_400/project3_h1cdha.jpg 400w,
+                https://res.cloudinary.com/.../w_600/project3_h1cdha.jpg 600w,
+                https://res.cloudinary.com/.../w_800/project3_h1cdha.jpg 800w
+              "
+              loading="lazy"
+            />
+          </picture>
+        </div>
+        <div class="project-card__content">
+          <span class="project-card__number">01</span>
+          <h3 class="project-card__title">Crypto Screener Application</h3>
+          <p class="project-card__description">
+            I'm Flora Sheen Lorem Ipsum is simply dummy text of the
+            printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an
+            unknown printer took a galley of type and scrambled it to
+            specimen book.
+          </p>
+          <a
+            href="#"
+            class="project-card__link"
+            aria-label="Read more about Crypto Screener Application"
+          >
+            <img src="assets/readmore.svg" alt="Read More" />
+          </a>
+        </div>
+      </article>
+      
+      <article class="project-card project-card--reverse">
+        <!-- Second project with reversed layout -->
+      </article>
+      
+      <article class="project-card">
+        <!-- Third project -->
+      </article>
+    </div>
+  </div>
+</section>
+```
+
+## CSS Classes
+
+### Section Styling
+
+<Accordion title=".projects">
+  Dark background section:
+  
+  ```css
+  .projects {
+    background: var(--primary-black);
+    color: var(--primary-white);
+  }
+  ```
+</Accordion>
+
+### Project List Container
+
+<Accordion title=".project-list">
+  Container query container for responsive behavior:
+  
+  ```css
+  .project-list {
+    container-name: project-list;
+    container-type: inline-size;
+  }
+  ```
+</Accordion>
+
+### Project Card
+
+<Accordion title=".project-card">
+  Flexible card layout:
+  
+  ```css
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-28);
+  }
+
+  @container project-list (min-width: 700px) {
+    .project-card {
+      flex-direction: row;
+    }
+
+    .project-card:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .project-card__content {
+      max-width: 50%;
+    }
+  }
+  ```
+</Accordion>
+
+### Image Section
+
+<Accordion title=".project-card__image-wrapper & .project-card__image">
+  Image container and responsive image:
+  
+  ```css
+  .project-card__image-wrapper {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .project-card__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  ```
+</Accordion>
+
+### Content Elements
+
+<Accordion title="Project Content Classes">
+  Individual content element styles:
+  
+  ```css
+  .project-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+    justify-content: center;
+  }
+
+  .project-card__number {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .project-card__title {
+    font-size: clamp(1.25rem, 2.75vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .project-card__description {
+    color: var(--zinc-300);
+    line-height: 1.5;
+  }
+
+  .project-card__link {
+    margin-top: var(--spacing-8);
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 700px container)">
+    - Vertical stack layout
+    - Image above content
+    - Full-width sections
+    
+    ```css
+    .project-card {
+      flex-direction: column;
+      gap: var(--spacing-28);
+    }
+    ```
+    
+    Layout:
+    ```
+    [Project Image          ]
+    [Project Number         ]
+    [Project Title          ]
+    [Project Description    ]
+    [Read More Link         ]
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 700px container)">
+    - Side-by-side layout
+    - Alternating image position
+    - 50% content width constraint
+    
+    ```css
+    @container project-list (min-width: 700px) {
+      .project-card {
+        flex-direction: row;
+      }
+
+      .project-card:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+
+      .project-card__content {
+        max-width: 50%;
+      }
+    }
+    ```
+    
+    Layout (alternating):
+    ```
+    Card 1: [Image] [Content]
+    Card 2: [Content] [Image]
+    Card 3: [Image] [Content]
+    ```
+  </Tab>
+</Tabs>
+
+## Container Queries
+
+This component uses modern CSS container queries instead of media queries:
+
+<Note>
+  Container queries allow the component to respond to its container's size rather than the viewport size, making it more modular and reusable.
+</Note>
+
+```css
+.project-list {
+  container-name: project-list;
+  container-type: inline-size;
+}
+
+@container project-list (min-width: 700px) {
+  /* Responsive styles */
+}
+```
+
+## Alternating Layout
+
+The alternating layout is achieved using the `:nth-child(even)` selector:
+
+<CodeGroup>
+  ```css Odd Cards (1st, 3rd)
+  .project-card {
+    flex-direction: row;
+  }
+  /* Image on left, content on right */
+  ```
+
+  ```css Even Cards (2nd)
+  .project-card:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  /* Content on left, image on right */
+  ```
+</CodeGroup>
+
+## Image Optimization
+
+Project images use multiple optimization techniques:
+
+<Steps>
+  <Step title="Picture Element">
+    Provides WebP format with JPEG fallback for browser compatibility.
+  </Step>
+  
+  <Step title="Srcset">
+    Multiple image sizes (400w, 600w, 800w) for responsive loading.
+  </Step>
+  
+  <Step title="Lazy Loading">
+    `loading="lazy"` attribute for better performance.
+  </Step>
+  
+  <Step title="CDN">
+    Images served from Cloudinary CDN with automatic optimization.
+  </Step>
+</Steps>
+
+```html
+<picture>
+  <source srcset="assets/project1.webp" type="image/webp" />
+  <img
+    src="https://res.cloudinary.com/.../project3_h1cdha.jpg"
+    srcset="
+      https://res.cloudinary.com/.../w_400/project3_h1cdha.jpg 400w,
+      https://res.cloudinary.com/.../w_600/project3_h1cdha.jpg 600w,
+      https://res.cloudinary.com/.../w_800/project3_h1cdha.jpg 800w
+    "
+    loading="lazy"
+  />
+</picture>
+```
+
+## Project Numbering
+
+Each project displays a large number for easy reference:
+
+```css
+.project-card__number {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+}
+```
+
+## Implementation Location
+
+The projects section is located at lines 276-394 in index.html, with styles at lines 426-501 in global.css.
+
+## Design Pattern
+
+<Tip>
+  The alternating layout creates visual interest and guides the user's eye down the page in a Z-pattern, which is a natural reading flow for Western audiences.
+</Tip>
+
+## Accessibility
+
+- Semantic `<article>` elements for each project
+- Descriptive `aria-label` on read more links
+- Alt text for all images
+- Proper heading hierarchy (h2 for section, h3 for projects)

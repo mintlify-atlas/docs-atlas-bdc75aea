@@ -1,0 +1,327 @@
+---
+title: Responsive Breakpoints
+description: Media queries, breakpoint strategy, and mobile-first approach
+---
+
+The Mobile First Course uses a **mobile-first** responsive design approach with carefully chosen breakpoints.
+
+## Breakpoint Overview
+
+The application uses three main breakpoints:
+
+| Breakpoint | Size | Target Devices | Usage |
+|------------|------|----------------|-------|
+| Mobile | < 768px | Phones | Default styles |
+| Tablet | 768px+ | Tablets, small laptops | Medium layouts |
+| Desktop | 1024px+ | Laptops, desktops | Large layouts |
+| Header | 1022px+ | Specific to header | Navigation switch |
+
+## Mobile-First Approach
+
+All base styles are written for mobile devices first, then enhanced for larger screens:
+
+```css
+/* Mobile styles (default) */
+.hero {
+  flex-direction: column;
+  gap: var(--spacing-40);
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .hero {
+    flex-direction: row-reverse;
+  }
+}
+```
+
+<Tip>
+Mobile-first means:
+1. Write base styles for mobile
+2. Use `min-width` media queries to enhance for larger screens
+3. Avoid `max-width` queries when possible
+</Tip>
+
+## Breakpoint: 768px (Tablet)
+
+This is the primary breakpoint for transitioning from mobile to tablet/desktop layouts.
+
+### Hero Section Layout
+
+From `global.css:200-204`:
+```css
+@media (min-width: 768px) {
+  .hero {
+    flex-direction: row-reverse;
+  }
+}
+```
+
+Changes from vertical stack to horizontal layout with image on right.
+
+### Skills Grid Gap
+
+From `global.css:286-297`:
+```css
+@media (min-width: 768px) {
+  .skills__grid {
+    gap: var(--spacing-32);
+  }
+  .skill-card:nth-child(n + 7) {
+    display: flex;
+  }
+
+  .skill-card:nth-child(n + 9) {
+    display: none;
+  }
+}
+```
+
+Increases grid gap from 20px to 32px and shows/hides specific cards.
+
+### Experience Cards
+
+From `global.css:357-362`:
+```css
+@media (min-width: 768px) {
+  .experience-card {
+    grid-template-columns: 32px 1fr auto;
+    grid-template-areas: 
+      'logo role date'
+      'description description description';
+  }
+}
+```
+
+Moves date to same row as role for more compact layout.
+
+### Testimonials
+
+From `global.css:601-612`:
+```css
+@media (min-width: 768px) {
+  .testimonials__list {
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .testimonial-card {
+    flex: 1;
+    max-width: 380px;
+  }
+}
+```
+
+Switches from vertical stack to horizontal row of cards.
+
+### About Section
+
+From `global.css:404-424`:
+```css
+@media (min-width: 768px) {
+  .about__container {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-40);
+  }
+
+  .about__image {
+    max-height: 40vh;
+  }
+
+  .about__image-wrapper {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .about__content {
+    flex: 1;
+  }
+}
+```
+
+Creates two-column layout with image and content side-by-side.
+
+### Outline Width Variable
+
+From `variables.css:34-38`:
+```css
+@media (min-width: 768px) {
+  :root {
+    --outline-width: 4px;
+  }
+}
+```
+
+Increases the outline width for the `.outlined` text effect from 2px to 4px.
+
+## Breakpoint: 1022px (Header Navigation)
+
+A special breakpoint specifically for the header navigation.
+
+### Header Navigation
+
+From `global.css:86-122`:
+```css
+@media (min-width: 1022px) {
+  .header__nav,
+  .header__cta {
+    display: block;
+  }
+  
+  .header__nav.header__nav--active {
+    position: static;
+    border-bottom: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .header__nav.header__nav--active ul {
+    flex-direction: row;
+  }
+
+  .header__toggle {
+    display: none;
+  }
+
+  .header__nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-32);
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .header__cta {
+    font-size: 20px;
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+    padding: var(--spacing-16) var(--spacing-20);
+    border-radius: 2px;
+  }
+}
+```
+
+**Changes:**
+- Hides mobile hamburger menu
+- Shows desktop navigation and CTA button
+- Converts vertical mobile menu to horizontal
+- Removes mobile menu positioning and shadows
+
+<Note>
+The 1022px breakpoint is slightly smaller than 1024px to ensure the navigation switches before the layout becomes cramped.
+</Note>
+
+## Breakpoint: 1024px (Desktop)
+
+The desktop breakpoint for large screen enhancements.
+
+### Skills Grid Fixed Columns
+
+From `global.css:299-307`:
+```css
+@media (min-width: 1024px) {
+  .skills__grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .skill-card:nth-child(n + 9) {
+    display: flex;
+  }
+}
+```
+
+Switches from fluid `auto-fit` to fixed 5-column grid and shows all skill cards.
+
+### Contact Section
+
+From `global.css:759-764`:
+```css
+@media (min-width: 1024px) {
+  .contact .section-container {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+```
+
+Creates side-by-side layout for contact form and info.
+
+## Responsive Patterns
+
+### Pattern 1: Stack to Row
+
+```css
+.component {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .component {
+    flex-direction: row;
+  }
+}
+```
+
+### Pattern 2: Hide/Show Elements
+
+```css
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 1022px) {
+  .mobile-only {
+    display: none;
+  }
+  
+  .desktop-only {
+    display: block;
+  }
+}
+```
+
+### Pattern 3: Increase Spacing
+
+```css
+.grid {
+  gap: var(--spacing-20);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    gap: var(--spacing-32);
+  }
+}
+```
+
+### Pattern 4: Change Grid Columns
+
+```css
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+```
+
+## Best Practices
+
+1. **Start mobile-first**: Write base styles for mobile, enhance upward
+2. **Use min-width**: Prefer `min-width` over `max-width` for clarity
+3. **Test at breakpoints**: Check layouts at exactly 768px, 1022px, and 1024px
+4. **Limit breakpoints**: Stick to these three main breakpoints for consistency
+5. **Progressive enhancement**: Add features and complexity as screen size increases
+6. **Container queries**: Consider using container queries for component-level responsiveness
+7. **Avoid device-specific breakpoints**: These breakpoints work across device types

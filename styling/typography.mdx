@@ -1,0 +1,137 @@
+---
+title: Typography
+description: Font usage, heading styles, and responsive text sizing
+---
+
+The Mobile First Course uses the **Sora** font family and implements responsive typography using the `clamp()` function.
+
+## Font Family
+
+The entire application uses the Sora font family:
+
+```css
+body {
+  font-family: 'Sora', sans-serif;
+}
+```
+
+<Note>
+Make sure to include the Sora font from Google Fonts in your HTML:
+```html
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+```
+</Note>
+
+## The Outlined Class
+
+The `.outlined` class creates a bold outlined text effect with white fill and black outline:
+
+```css
+.outlined {
+  font-weight: 800;
+  color: var(--primary-white);
+  text-shadow: var(--outline-width) 0 var(--primary-black),
+    calc(var(--outline-width) * -1) 0 var(--primary-black),
+    0 var(--outline-width) var(--primary-black),
+    0 calc(var(--outline-width) * -1) var(--primary-black),
+    var(--outline-width) var(--outline-width) var(--primary-black),
+    calc(var(--outline-width) * -1) calc(var(--outline-width) * -1) var(--primary-black),
+    var(--outline-width) calc(var(--outline-width) * -1) var(--primary-black),
+    calc(var(--outline-width) * -1) var(--outline-width) var(--primary-black);
+}
+```
+
+This creates an 8-directional text shadow that simulates an outline. The `--outline-width` variable is:
+- **2px** on mobile
+- **4px** on tablets and larger (768px+)
+
+## Responsive Typography with clamp()
+
+The `clamp()` CSS function enables fluid typography that scales smoothly between minimum and maximum sizes.
+
+### Syntax
+
+```css
+font-size: clamp(min, preferred, max);
+```
+
+- **min**: Minimum font size
+- **preferred**: Ideal size (usually viewport-based like `5vw`)
+- **max**: Maximum font size
+
+### Section Titles
+
+From `global.css:22`:
+```css
+.section-title {
+  font-weight: 400;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  text-align: center;
+}
+```
+
+- Minimum: **28px** (1.75rem)
+- Preferred: **5% of viewport width**
+- Maximum: **40px** (2.5rem)
+
+### Hero Title
+
+From `global.css:144`:
+```css
+.hero__title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 400;
+  color: var(--primary-black);
+}
+```
+
+- Minimum: **24px** (1.5rem)
+- Preferred: **5% of viewport width**
+- Maximum: **40px** (2.5rem)
+
+### Project Card Numbers
+
+From `global.css:469`:
+```css
+.project-card__number {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+}
+```
+
+- Minimum: **24px** (1.5rem)
+- Preferred: **3% of viewport width**
+- Maximum: **32px** (2rem)
+
+### Skill Card Labels
+
+From `global.css:251`:
+```css
+.skill-card__label {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 700;
+  color: var(--primary-black);
+}
+```
+
+- Minimum: **16px** (1rem)
+- Preferred: **2% of viewport width**
+- Maximum: **20px** (1.25rem)
+
+## Font Weights
+
+The design system uses specific font weights:
+
+- **400**: Regular text (body copy, titles)
+- **600**: Semi-bold (navigation, labels)
+- **700**: Bold (card labels, names)
+- **800**: Extra bold (outlined text, emphasized headings)
+
+## Best Practices
+
+1. **Use clamp() for headings** to ensure readability across all screen sizes
+2. **Set minimum sizes** that are readable on mobile devices (at least 1rem/16px)
+3. **Limit viewport-based scaling** to 2-5vw to prevent extreme sizes
+4. **Use line-height: 1.5** for body text for optimal readability
+5. **Keep font weights consistent** with the established system

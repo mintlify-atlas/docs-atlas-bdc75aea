@@ -1,0 +1,407 @@
+---
+title: Testimonials Component
+description: Card grid of client testimonials with avatars and quotes
+---
+
+## Overview
+
+The testimonials section displays client feedback in elegant cards with avatar images, quote icons, testimonial text, and client information. The cards feature sophisticated hover effects and responsive image optimization.
+
+## Key Features
+
+- Three-column grid on desktop, single column on mobile
+- Hover effects with color inversion
+- Responsive images with WebP and JPEG formats
+- Quote icon overlay on avatars
+- Shadow and transform effects
+- Decorative divider line
+
+## HTML Structure
+
+Each testimonial card includes a header with avatar, testimonial text, and footer with client info:
+
+```html
+<section class="testimonials" id="testimonials">
+  <div class="section-container">
+    <h2 class="testimonials__title section-title">
+      My <strong>Testimonial</strong>
+    </h2>
+
+    <div class="testimonials__list">
+      <div class="testimonial-card">
+        <div class="testimonial-card__header">
+          <picture>
+            <source
+              type="image/webp"
+              srcset="
+                https://res.cloudinary.com/.../f_webp,w_100/...jpg 100w,
+                https://res.cloudinary.com/.../f_webp,w_200/...jpg 200w
+              "
+            />
+            <source
+              type="image/jpeg"
+              srcset="
+                https://res.cloudinary.com/.../f_jpg,w_100/...jpg 100w,
+                https://res.cloudinary.com/.../f_jpg,w_200/...jpg 200w
+              "
+            />
+            <img
+              src="https://res.cloudinary.com/.../f_jpg,w_200/...jpg"
+              alt="Evren Shah"
+              class="testimonial-card__avatar"
+              loading="lazy"
+            />
+          </picture>
+
+          <img
+            src="assets/quotes.svg"
+            alt="Quote"
+            class="testimonial-card__quote-icon"
+          />
+        </div>
+        <p class="testimonial-card__text">
+          I recently had to jump on 10+ different calls across eight
+          different countries to find the right owner.
+        </p>
+        <div class="testimonial-card__footer">
+          <h3 class="testimonial-card__name">Evren Shah</h3>
+          <p class="testimonial-card__role">Designer</p>
+        </div>
+      </div>
+      
+      <!-- More testimonial cards... -->
+    </div>
+  </div>
+</section>
+```
+
+## CSS Classes
+
+### Testimonials List
+
+<Accordion title=".testimonials__list">
+  Flexible grid container:
+  
+  ```css
+  .testimonials__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-40);
+    margin-top: var(--spacing-40);
+  }
+
+  @media (min-width: 768px) {
+    .testimonials__list {
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
+    }
+  }
+  ```
+</Accordion>
+
+### Testimonial Card
+
+<Accordion title=".testimonial-card">
+  Card with shadow, rounded corners, and hover effects:
+  
+  ```css
+  .testimonial-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-24);
+    padding: var(--spacing-40);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    background: var(--primary-white);
+    transition: transform 0.2s ease;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    background: var(--primary-black);
+    color: var(--primary-white);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (min-width: 768px) {
+    .testimonial-card {
+      flex: 1;
+      max-width: 380px;
+    }
+  }
+  ```
+</Accordion>
+
+### Avatar Section
+
+<Accordion title=".testimonial-card__header">
+  Relative positioning for quote icon overlay:
+  
+  ```css
+  .testimonial-card__header {
+    position: relative;
+    display: inline-block;
+  }
+
+  .testimonial-card__avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .testimonial-card__quote-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+  }
+
+  .testimonial-card:hover .testimonial-card__quote-icon {
+    filter: invert(1);
+  }
+  ```
+</Accordion>
+
+### Text Content
+
+<Accordion title=".testimonial-card__text">
+  Testimonial quote styling:
+  
+  ```css
+  .testimonial-card__text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--zinc-500);
+    max-width: 400px;
+  }
+
+  .testimonial-card:hover .testimonial-card__text {
+    color: var(--zinc-300);
+  }
+  ```
+</Accordion>
+
+### Footer Section
+
+<Accordion title=".testimonial-card__footer">
+  Client name and role with decorative divider:
+  
+  ```css
+  .testimonial-card__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    position: relative;
+  }
+
+  .testimonial-card__footer::before {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 2px;
+    background-color: var(--primary-black);
+    margin: 0 auto var(--spacing-16);
+  }
+
+  .testimonial-card:hover .testimonial-card__footer::before {
+    background-color: var(--primary-white);
+  }
+
+  .testimonial-card__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .testimonial-card__role {
+    font-size: 1rem;
+    color: var(--zinc-500);
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 768px)">
+    - Single column vertical layout
+    - Full-width cards
+    - Stacked vertically with spacing
+    
+    ```css
+    .testimonials__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-40);
+    }
+    ```
+    
+    Layout:
+    ```
+    [Testimonial Card 1]
+    
+    [Testimonial Card 2]
+    
+    [Testimonial Card 3]
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 768px)">
+    - Horizontal row layout
+    - Three cards side-by-side
+    - Equal flex distribution
+    - Max-width constraint (380px)
+    - Stretched to equal height
+    
+    ```css
+    @media (min-width: 768px) {
+      .testimonials__list {
+        flex-direction: row;
+        justify-content: center;
+        align-items: stretch;
+      }
+
+      .testimonial-card {
+        flex: 1;
+        max-width: 380px;
+      }
+    }
+    ```
+    
+    Layout:
+    ```
+    [Card 1] [Card 2] [Card 3]
+    ```
+  </Tab>
+</Tabs>
+
+## Hover Effects
+
+The testimonial cards feature comprehensive hover effects:
+
+<Steps>
+  <Step title="Transform">
+    Card lifts up 5px with `translateY(-5px)`
+  </Step>
+  
+  <Step title="Color Inversion">
+    Background changes from white to black, text inverts
+  </Step>
+  
+  <Step title="Shadow Enhancement">
+    Box shadow becomes more prominent
+  </Step>
+  
+  <Step title="Quote Icon Inversion">
+    Quote icon colors invert using filter
+  </Step>
+  
+  <Step title="Divider Line">
+    Decorative line changes from black to white
+  </Step>
+</Steps>
+
+```css
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  background: var(--primary-black);
+  color: var(--primary-white);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+```
+
+## Image Optimization
+
+Testimonials use advanced responsive image techniques:
+
+```html
+<picture>
+  <!-- WebP format with multiple sizes -->
+  <source
+    type="image/webp"
+    srcset="
+      https://res.cloudinary.com/.../f_webp,w_100/...jpg 100w,
+      https://res.cloudinary.com/.../f_webp,w_200/...jpg 200w
+    "
+  />
+
+  <!-- JPEG fallback with multiple sizes -->
+  <source
+    type="image/jpeg"
+    srcset="
+      https://res.cloudinary.com/.../f_jpg,w_100/...jpg 100w,
+      https://res.cloudinary.com/.../f_jpg,w_200/...jpg 200w
+    "
+  />
+
+  <!-- Final fallback -->
+  <img
+    src="https://res.cloudinary.com/.../f_jpg,w_200/...jpg"
+    alt="Evren Shah"
+    class="testimonial-card__avatar"
+    loading="lazy"
+  />
+</picture>
+```
+
+<Note>
+  The picture element provides both format selection (WebP vs JPEG) and resolution selection (100w vs 200w) for optimal performance.
+</Note>
+
+## Quote Icon Overlay
+
+The quote icon is positioned absolutely over the avatar:
+
+```css
+.testimonial-card__header {
+  position: relative;
+  display: inline-block;
+}
+
+.testimonial-card__quote-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+}
+```
+
+This creates a badge-like effect in the bottom-right corner of the avatar.
+
+## Decorative Divider
+
+A pseudo-element creates a horizontal divider above the client info:
+
+```css
+.testimonial-card__footer::before {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 2px;
+  background-color: var(--primary-black);
+  margin: 0 auto var(--spacing-16);
+}
+```
+
+## Implementation Location
+
+The testimonials section is located at lines 396-543 in index.html, with styles at lines 502-612 in global.css.
+
+## Design Pattern
+
+<Tip>
+  The center-aligned text, circular avatars, and subtle shadows create a professional, trustworthy appearance for testimonials.
+</Tip>
+
+## Card Dimensions
+
+- Padding: `var(--spacing-40)` on all sides
+- Border radius: 20px for soft corners
+- Max width: 380px on desktop
+- Avatar: 96px × 96px circular
+- Quote icon: 30px × 30px

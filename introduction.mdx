@@ -1,0 +1,169 @@
+---
+title: Introduction
+description: Learn about mobile-first design principles through a modern portfolio website built with HTML, CSS, and JavaScript
+---
+
+# Introduction to Mobile-First Design
+
+Welcome to the Mobile-First Course documentation! This project is an educational portfolio website that demonstrates professional mobile-first design principles and modern web development practices.
+
+## What You'll Learn
+
+This course teaches mobile-first development through a real-world portfolio website example. You'll explore:
+
+<CardGroup cols={2}>
+  <Card title="Mobile-First CSS" icon="mobile">
+    Learn how to build responsive layouts that start with mobile designs and progressively enhance for larger screens
+  </Card>
+  <Card title="CSS Variables" icon="palette">
+    Understand design systems using CSS custom properties for consistent spacing, colors, and typography
+  </Card>
+  <Card title="Semantic HTML" icon="code">
+    Master accessible, SEO-friendly HTML structure with proper semantic elements
+  </Card>
+  <Card title="Modern JavaScript" icon="js">
+    Implement interactive features with vanilla JavaScript and accessibility best practices
+  </Card>
+</CardGroup>
+
+## Project Overview
+
+The Flora Sheen Portfolio is a fully responsive, single-page website featuring:
+
+- **Responsive Navigation** - Mobile hamburger menu that expands to full navigation on desktop
+- **Hero Section** - Introduction with social media links and professional description
+- **Skills Grid** - Auto-fitting grid layout showcasing technical skills with hover effects
+- **Experience Timeline** - Professional experience cards with responsive layouts
+- **About Section** - Multi-paragraph biography with responsive image placement
+- **Project Showcase** - Alternating image/content layout with optimized images
+- **Testimonials** - Three-column testimonial cards with hover animations
+- **Contact Form** - Full-featured contact section with form inputs and validation
+
+## Technology Stack
+
+This project is built with fundamental web technologies:
+
+```plaintext
+├── HTML5 - Semantic markup with accessibility features
+├── CSS3 - Custom properties, Grid, Flexbox, Container Queries
+├── JavaScript - DOM manipulation and event handling
+└── Assets - Optimized SVG icons and responsive images
+```
+
+## Key Features
+
+### Mobile-First CSS Architecture
+
+The CSS is structured with mobile as the default, using media queries to enhance the experience on larger screens:
+
+```css
+/* Mobile-first: Base styles for small screens */
+.header__nav {
+  display: none;
+}
+
+/* Desktop enhancement */
+@media (min-width: 1022px) {
+  .header__nav {
+    display: block;
+  }
+}
+```
+
+### CSS Custom Properties Design System
+
+The project uses CSS variables for a maintainable design system:
+
+```css
+:root {
+  /* Primary Colors */
+  --primary-black: #000000;
+  --primary-white: #FFFFFF;
+  
+  /* Spacing Scale */
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  
+  /* Layout */
+  --max-width: 1280px;
+}
+```
+
+### Progressive Enhancement
+
+Features are built to work on all devices, with enhancements for modern browsers:
+
+- **Responsive images** with `<picture>` elements and `srcset`
+- **Container queries** for component-level responsiveness
+- **CSS Grid** with auto-fit for flexible layouts
+- **Accessibility** with ARIA labels and semantic HTML
+
+## Project Structure
+
+The source code is organized in a clean, logical structure:
+
+```plaintext
+source/
+├── index.html              # Main HTML file with all sections
+├── css/
+│   ├── reset.css          # CSS reset for consistent baseline
+│   ├── variables.css      # Design system variables
+│   └── global.css         # Component and layout styles
+├── js/
+│   └── main.js            # Navigation toggle functionality
+└── assets/
+    ├── *.svg              # Icon files
+    ├── project*.jpg       # Project images
+    └── hero.svg           # Hero illustration
+```
+
+<Note>
+All source files are located in `~/workspace/source/` for easy access and modification.
+</Note>
+
+## Design Principles
+
+This project demonstrates several important design principles:
+
+1. **Mobile-First Approach** - Styles are written for mobile devices first, then enhanced for larger screens
+2. **Responsive Typography** - Using `clamp()` for fluid, accessible text sizing
+3. **Consistent Spacing** - Design system with predefined spacing variables
+4. **Performance** - Optimized images with WebP format and lazy loading
+5. **Accessibility** - Semantic HTML, ARIA labels, and keyboard navigation
+
+## Learning Path
+
+This documentation is organized to guide you through the project:
+
+<Steps>
+  <Step title="Get Started">
+    Set up the project locally and explore the file structure
+  </Step>
+  <Step title="Understand the Layout">
+    Learn how the responsive layout system works
+  </Step>
+  <Step title="Study Components">
+    Deep dive into individual components and their styling
+  </Step>
+  <Step title="Customize">
+    Modify the design system and create your own variations
+  </Step>
+</Steps>
+
+## Why Mobile-First?
+
+Mobile-first design is essential in modern web development:
+
+- **Mobile Traffic** - Over 60% of web traffic comes from mobile devices
+- **Performance** - Starting with mobile forces you to prioritize content and performance
+- **Progressive Enhancement** - Easier to add features than remove them
+- **Better UX** - Ensures the core experience works on all devices
+
+<Warning>
+Always test your mobile-first designs on actual devices, not just browser dev tools!
+</Warning>
+
+## Next Steps
+
+Ready to dive in? Start with the [Quickstart](/quickstart) guide to set up the project and begin exploring the code.

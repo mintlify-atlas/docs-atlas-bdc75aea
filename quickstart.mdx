@@ -1,80 +1,407 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart
+description: Get the mobile-first portfolio project running on your local machine in minutes
 ---
 
-## Get started in three steps
+# Quickstart Guide
 
-Get your documentation site running locally and make your first customization.
+Get started with the Mobile-First Portfolio project in just a few steps. This guide will walk you through setting up the project and understanding its structure.
 
-### Step 1: Set up your local environment
+## Prerequisites
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
+You only need a web browser to run this project. No build tools, package managers, or dependencies required!
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+This is a static HTML/CSS/JavaScript project, making it perfect for learning web fundamentals without complex tooling.
 </Note>
+
+## Quick Start
+
+<Steps>
+  <Step title="Navigate to the project directory">
+    The source files are located in the workspace:
+    
+    ```bash
+    cd ~/workspace/source
+    ```
+  </Step>
+  
+  <Step title="Open the project">
+    Simply open `index.html` in your web browser:
+    
+    **Option 1: Direct File Access**
+    ```bash
+    # macOS
+    open index.html
+    
+    # Linux
+    xdg-open index.html
+    
+    # Windows
+    start index.html
+    ```
+    
+    **Option 2: Using a Local Server (Recommended)**
+    
+    Using a local server provides a better development experience:
+    
+    ```bash
+    # Python 3
+    python -m http.server 8000
+    
+    # Python 2
+    python -m SimpleHTTPServer 8000
+    
+    # Node.js (if you have npx)
+    npx http-server
+    ```
+    
+    Then visit `http://localhost:8000` in your browser.
+  </Step>
+  
+  <Step title="Explore the website">
+    The portfolio includes these sections:
+    - Header with responsive navigation
+    - Hero section with introduction
+    - Skills grid
+    - Experience timeline
+    - About section
+    - Projects showcase
+    - Testimonials
+    - Contact form
+  </Step>
+  
+  <Step title="Test responsiveness">
+    Open browser DevTools (F12) and toggle device toolbar to test different screen sizes:
+    
+    - **Mobile**: 375px - 767px
+    - **Tablet**: 768px - 1023px
+    - **Desktop**: 1024px and above
+  </Step>
+</Steps>
+
+## File Structure Explained
+
+Here's what each file does in the project:
+
+### HTML Structure
+
+The `index.html` file contains all page content in a single-page application format:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/global.css" />
+  </head>
+  <body>
+    <header class="header">...</header>
+    <main>
+      <section class="hero">...</section>
+      <section class="skills">...</section>
+      <!-- Additional sections -->
+    </main>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+```
+
+<Note>
+Notice the CSS files are loaded in order: reset → variables → global. This cascading approach ensures proper style application.
+</Note>
+
+### CSS Organization
+
+**1. reset.css** - Removes browser default styles:
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
+
+**2. variables.css** - Design system tokens:
+
+```css
+:root {
+  /* Colors */
+  --primary-black: #000000;
+  --primary-white: #FFFFFF;
+  --zinc-500: #71717a;
+  
+  /* Spacing */
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  
+  /* Layout */
+  --max-width: 1280px;
+}
+```
+
+**3. global.css** - All component styles with mobile-first approach:
+
+```css
+/* Mobile-first header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-16);
+}
+
+.header__nav {
+  display: none; /* Hidden on mobile */
+}
+
+/* Desktop enhancement */
+@media (min-width: 1022px) {
+  .header__nav {
+    display: block;
+  }
+  .header__toggle {
+    display: none; /* Hide hamburger on desktop */
+  }
+}
+```
+
+### JavaScript Functionality
+
+The `main.js` file handles the mobile navigation toggle:
+
+```javascript
+const toggleBtn = document.querySelector('.header__toggle');
+const nav = document.querySelector('.header__nav');
+const navLinks = document.querySelectorAll('.header__nav a');
+
+// Toggle menu on button click
+toggleBtn.addEventListener('click', () => {
+  nav.classList.toggle('header__nav--active');
+  const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+  toggleBtn.setAttribute('aria-expanded', !isExpanded);
+});
+
+// Close menu when clicking a link
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('header__nav--active');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+```
+
+<Note>
+The JavaScript includes accessibility features like `aria-expanded` to communicate menu state to screen readers.
+</Note>
+
+### Assets Directory
+
+The `assets/` folder contains:
+
+- **SVG Icons**: `logo.svg`, `toggle.svg`, `facebook.svg`, `twitter.svg`, etc.
+- **Project Images**: `project1.jpg`, `project2.jpg`, `project3.jpg`
+- **Illustrations**: `hero.svg`, `about_me.svg`
+
+All images are optimized for web performance.
+
+## Complete Directory Structure
+
+```plaintext
+source/
+├── index.html                  # Main HTML file (650 lines)
+├── css/
+│   ├── reset.css              # CSS reset (38 lines)
+│   ├── variables.css          # Design tokens (39 lines)
+│   └── global.css             # Component styles (765 lines)
+├── js/
+│   └── main.js                # Navigation toggle (18 lines)
+└── assets/
+    ├── logo.svg               # Site logo
+    ├── toggle.svg             # Hamburger menu icon
+    ├── hero.svg               # Hero illustration
+    ├── about_me.svg           # About section image
+    ├── facebook.svg           # Social icon
+    ├── twitter.svg            # Social icon
+    ├── reddit.svg             # Social icon
+    ├── discord.svg            # Social icon
+    ├── ts.svg                 # TypeScript skill icon
+    ├── js.svg                 # JavaScript skill icon
+    ├── react.svg              # React skill icon
+    ├── next.svg               # Next.js skill icon
+    ├── node.svg               # Node.js skill icon
+    ├── git.svg                # Git skill icon
+    ├── google.svg             # Company logo
+    ├── youtube.svg            # Company logo
+    ├── apple.svg              # Company logo
+    ├── quotes.svg             # Quote icon
+    ├── readmore.svg           # Link arrow icon
+    ├── project1.jpg           # Project image
+    ├── project1.webp          # Project image (optimized)
+    ├── project2.jpg           # Project image
+    ├── project2.webp          # Project image (optimized)
+    ├── project3.jpg           # Project image
+    └── project3.webp          # Project image (optimized)
+```
+
+## Key Components to Explore
+
+Once you have the project running, examine these key components:
+
+### 1. Responsive Header (index.html:25-48)
+
+The header demonstrates mobile-first navigation:
+
+```html
+<header class="header">
+  <div class="header__brand">
+    <img class="header__logo" src="assets/logo.svg" alt="Flora Sheen Portfolio" />
+    <span class="header__title">Personal</span>
+  </div>
+  <button aria-label="Toggle Menu" class="header__toggle" aria-expanded="false">
+    <img src="assets/toggle.svg" alt="Hamburger Menu" />
+  </button>
+  <nav class="header__nav">
+    <ul>
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Project</a></li>
+      <li><a href="#contact">Contact Me</a></li>
+    </ul>
+  </nav>
+  <button class="header__cta" aria-label="Download resume">Resume</button>
+</header>
+```
+
+### 2. Skills Grid (index.html:91-167)
+
+Auto-fitting grid that adapts to screen size:
+
+```css
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-20);
+}
+```
+
+This creates a responsive grid without media queries!
+
+### 3. Responsive Typography
+
+Using `clamp()` for fluid text sizing:
+
+```css
+.hero__title {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+```
+
+This scales smoothly from 24px (1.5rem) to 40px (2.5rem) based on viewport width.
+
+### 4. Container Queries (global.css:489-501)
+
+Modern responsive technique for component-level responsiveness:
+
+```css
+.project-list {
+  container-name: project-list;
+  container-type: inline-size;
+}
+
+@container project-list (min-width: 700px) {
+  .project-card {
+    flex-direction: row;
+  }
+}
+```
+
+## Testing Mobile-First Design
+
+<Steps>
+  <Step title="Start with mobile view">
+    Set your browser to 375px width (iPhone SE size)
+  </Step>
+  
+  <Step title="Test the hamburger menu">
+    Click the toggle button to open/close navigation
+  </Step>
+  
+  <Step title="Gradually increase width">
+    Watch how components adapt at different breakpoints:
+    - 768px: Skills grid expands, hero section switches to row layout
+    - 1022px: Full desktop navigation appears
+  </Step>
+  
+  <Step title="Check interactions">
+    Test hover effects on skills cards, testimonials, and project cards
+  </Step>
+</Steps>
+
+<Warning>
+The hamburger menu only appears below 1022px. If you don't see it, make your browser window narrower!
+</Warning>
+
+## Making Your First Modification
+
+Try customizing the color scheme:
+
+1. Open `css/variables.css`
+2. Change the primary colors:
+
+```css
+:root {
+  --primary-black: #1a1a1a;  /* Softer black */
+  --primary-white: #f9f9f9;  /* Warmer white */
+}
+```
+
+3. Refresh your browser to see the changes!
+
+## Common Issues
+
+<AccordionGroup>
+  <Accordion title="Images not loading">
+    Make sure you're viewing the site through a local server rather than opening the HTML file directly. Some browsers restrict loading local resources for security.
+  </Accordion>
+  
+  <Accordion title="Fonts not appearing">
+    Check your internet connection - the Sora font is loaded from Google Fonts CDN.
+  </Accordion>
+  
+  <Accordion title="Styles not updating">
+    Hard refresh your browser with Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (macOS) to clear the cache.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+Now that you have the project running:
+
+<CardGroup cols={2}>
+  <Card title="Layout System" icon="grid" href="/styling/layout">
+    Learn how the responsive layout works
+  </Card>
+  <Card title="Components" icon="cube" href="/components/header">
+    Explore individual components in detail
+  </Card>
+  <Card title="CSS Architecture" icon="file-code" href="/concepts/css-architecture">
+    Understand the CSS organization
+  </Card>
+  <Card title="Mobile-First Concepts" icon="mobile" href="/concepts/mobile-first">
+    Learn the mobile-first methodology
+  </Card>
+</CardGroup>
+
+## Additional Resources
+
+- [MDN Web Docs - Responsive Design](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design)
+- [CSS Tricks - Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
+- [Web.dev - Mobile-First CSS](https://web.dev/responsive-web-design-basics/)

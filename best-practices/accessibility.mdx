@@ -1,0 +1,283 @@
+---
+title: Accessibility Best Practices
+description: Learn how to implement web accessibility features including ARIA labels, semantic HTML, and keyboard navigation
+---
+
+# Accessibility Best Practices
+
+Accessibility ensures that your mobile-first website can be used by everyone, including people with disabilities. This project demonstrates several key accessibility features that should be implemented in every web application.
+
+## Why Accessibility Matters
+
+Accessibility isn't just about compliance—it's about creating inclusive experiences:
+
+- **Broader Audience**: 15% of the world's population has some form of disability
+- **Better SEO**: Semantic HTML and proper structure improve search rankings
+- **Legal Compliance**: Many jurisdictions require accessible websites
+- **Improved Usability**: Accessible sites are easier for everyone to use
+
+## ARIA Labels for Enhanced Screen Reader Support
+
+ARIA (Accessible Rich Internet Applications) labels provide additional context for assistive technologies. The project uses ARIA labels extensively throughout the interface.
+
+### Interactive Elements
+
+Buttons that don't contain text need descriptive labels:
+
+```html title="index.html:34"
+<button aria-label="Toggle Menu" class="header__toggle" aria-expanded="false">
+  <img src="assets/toggle.svg" alt="Hamburger Menu" />
+</button>
+```
+
+<Note>
+The `aria-label` tells screen readers what the button does, while `aria-expanded` communicates the current state of the menu.
+</Note>
+
+### Dynamic State Management
+
+The JavaScript dynamically updates ARIA attributes to reflect UI changes:
+
+```javascript title="main.js:5-8"
+toggleBtn.addEventListener('click', () => {
+  nav.classList.toggle('header__nav--active');
+  const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+  toggleBtn.setAttribute('aria-expanded', !isExpanded);
+});
+```
+
+<Tip>
+Always update ARIA attributes when UI state changes. Screen reader users need to know when menus open, modals appear, or content expands.
+</Tip>
+
+### Social Media Links
+
+Links with only icons need descriptive labels:
+
+```html title="index.html:74-85"
+<a href="#" class="social-link" aria-label="Facebook">
+  <img src="assets/facebook.svg" alt="Facebook" />
+</a>
+<a href="#" class="social-link" aria-label="Reddit">
+  <img src="assets/reddit.svg" alt="Reddit" />
+</a>
+<a href="#" class="social-link" aria-label="Twitter">
+  <img src="assets/twitter.svg" alt="Twitter" />
+</a>
+<a href="#" class="social-link" aria-label="Discord">
+  <img src="assets/discord.svg" alt="Discord" />
+</a>
+```
+
+## Semantic HTML Structure
+
+Semantic HTML uses elements that clearly describe their meaning, making content more accessible and maintainable.
+
+### Proper Document Structure
+
+```html title="index.html:2-23"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="..." />
+    <title>Flora Sheen Portfolio</title>
+```
+
+<Note>
+The `lang="en"` attribute helps screen readers pronounce content correctly, while the meta description improves SEO and accessibility.
+</Note>
+
+### Semantic Sectioning Elements
+
+The project uses proper HTML5 semantic elements:
+
+```html
+<header class="header">...</header>
+<main>
+  <section class="hero">...</section>
+  <section class="skills" id="skills">...</section>
+  <section class="about" id="about">...</section>
+  <article class="project-card">...</article>
+</main>
+```
+
+**Benefits of semantic elements:**
+- Screen readers can navigate by landmarks (`header`, `main`, `nav`, `section`)
+- Improves document outline and SEO
+- Makes code more maintainable and self-documenting
+
+### Heading Hierarchy
+
+Proper heading structure creates a logical document outline:
+
+```html
+<h1 class="hero__title">Hello I'am Flora Sheen...</h1>
+<h2 class="section-title">My Skills</h2>
+<h3 class="experience-card__role">Lead Software Engineer at Google</h3>
+```
+
+<Warning>
+Never skip heading levels (e.g., jumping from h2 to h4). This confuses screen reader users who rely on heading navigation.
+</Warning>
+
+## Form Accessibility
+
+Forms are critical touchpoints that must be fully accessible. This project implements several form best practices.
+
+### Explicit Label Association
+
+Every input has an associated label using the `for` and `id` attributes:
+
+```html title="index.html:549-557"
+<label for="name" class="contact__label">Your name</label>
+<input
+  id="name"
+  type="text"
+  placeholder="Your name"
+  class="contact__input"
+  aria-label="Your name"
+  autocomplete="name"
+/>
+```
+
+### Input Modes for Mobile
+
+The `inputmode` attribute optimizes mobile keyboard layouts:
+
+```html title="index.html:567"
+<input
+  id="email"
+  type="email"
+  inputmode="email"
+  autocomplete="email"
+/>
+
+<input
+  id="phone"
+  type="text"
+  inputmode="tel"
+  autocomplete="tel"
+/>
+```
+
+<Tip>
+Using `inputmode` provides the right keyboard for each input type on mobile devices, significantly improving the user experience.
+</Tip>
+
+### Autocomplete Attributes
+
+Autocomplete helps users fill forms faster and assists password managers:
+
+```html
+autocomplete="name"
+autocomplete="email" 
+autocomplete="tel"
+autocomplete="url"
+```
+
+## Keyboard Navigation
+
+All interactive elements must be keyboard accessible. The project ensures proper keyboard support through CSS and JavaScript.
+
+### Focus States
+
+Visible focus indicators show keyboard users where they are:
+
+```css title="global.css:654-664"
+.contact__input:focus,
+.contact__textarea:focus {
+  border-color: var(--primary-black);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact__input:focus-visible,
+.contact__textarea:focus-visible {
+  outline: 2px solid var(--primary-black);
+  outline-offset: 2px;
+}
+```
+
+<Note>
+The `:focus-visible` pseudo-class shows focus indicators only for keyboard navigation, not mouse clicks, providing a better experience for all users.
+</Note>
+
+### Interactive Element Transitions
+
+All buttons and links have clear hover and focus states:
+
+```css title="global.css:185-189"
+.social-link:hover {
+  background: var(--primary-black);
+  color: var(--primary-white);
+  transform: translateY(-2px);
+}
+```
+
+## Image Accessibility
+
+Every image includes descriptive alt text:
+
+```html title="index.html:28-31"
+<img
+  class="header__logo"
+  src="assets/logo.svg"
+  alt="Flora Sheen Portfolio"
+/>
+```
+
+```html title="index.html:54-60"
+<img
+  class="hero__image"
+  src="assets/hero.svg"
+  alt="Girl working on a laptop"
+  fetchpriority="high"
+  width="300"
+  height="300"
+/>
+```
+
+<Tip>
+Write alt text that describes the image's purpose in context. For decorative images, use an empty alt attribute (`alt=""`) to hide them from screen readers.
+</Tip>
+
+## Menu Accessibility
+
+The mobile navigation menu is fully keyboard and screen reader accessible:
+
+```javascript title="main.js:11-17"
+// Close menu when clicking a link
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('header__nav--active');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+```
+
+This ensures that:
+- Menu state is communicated to assistive technologies
+- Links can be activated via keyboard
+- Menu closes automatically after selection
+
+## Additional Accessibility Tips
+
+<Note>
+**Color Contrast**: Ensure text has sufficient contrast against backgrounds (minimum 4.5:1 for normal text, 3:1 for large text).
+</Note>
+
+<Tip>
+**Test with Real Users**: The best way to ensure accessibility is to test with people who use assistive technologies.
+</Tip>
+
+<Warning>
+**Avoid Accessibility Overlays**: Don't rely on automated overlay solutions. They often create more problems than they solve. Build accessibility in from the start.
+</Warning>
+
+## Resources
+
+- [WebAIM: Web Accessibility Guidelines](https://webaim.org/)
+- [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
+- [A11y Project Checklist](https://www.a11yproject.com/checklist/)
+- [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/)

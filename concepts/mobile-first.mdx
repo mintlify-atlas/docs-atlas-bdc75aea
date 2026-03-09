@@ -1,0 +1,218 @@
+---
+title: "Mobile-First Methodology"
+description: "Learn the mobile-first approach to responsive web design and why it's essential for modern web development"
+---
+
+## What is Mobile-First?
+
+Mobile-first is a design and development strategy where you start building for the smallest screens first, then progressively enhance the experience for larger screens. This approach prioritizes the most constrained environment and ensures your content works everywhere.
+
+<Note>
+Mobile-first is not just about mobile devices—it's about starting with the essential content and functionality, then enhancing for larger screens.
+</Note>
+
+## Why Mobile-First Matters
+
+Starting with mobile provides several critical advantages:
+
+<CardGroup cols={2}>
+  <Card title="Performance First" icon="gauge-high">
+    Mobile constraints force you to prioritize essential content and optimize for performance from the start
+  </Card>
+  <Card title="Progressive Enhancement" icon="arrow-up">
+    Build a solid foundation that works everywhere, then add enhancements for capable devices
+  </Card>
+  <Card title="Content Priority" icon="list-check">
+    Limited space forces you to focus on what truly matters to your users
+  </Card>
+  <Card title="Future-Proof" icon="shield">
+    New devices and screen sizes emerge constantly—starting small scales up naturally
+  </Card>
+</CardGroup>
+
+## Mobile-First in Practice
+
+This project demonstrates mobile-first CSS using min-width media queries. Styles are written for mobile first, then enhanced for larger screens:
+
+```css global.css
+/* Mobile styles (default) - no media query needed */
+.header__nav,
+.header__cta {
+  display: none;
+}
+
+/* Tablet and larger - enhance the base styles */
+@media (min-width: 1022px) {
+  .header__nav,
+  .header__cta {
+    display: block;
+  }
+}
+```
+
+Notice how the mobile styles come first without any media query. This is the key principle: **default styles = mobile styles**.
+
+## Real Examples from the Project
+
+### Hero Section Layout
+
+The hero section stacks vertically on mobile, then becomes a horizontal layout on tablet:
+
+```css global.css
+/* Mobile: vertical stack (default) */
+.hero {
+  padding: var(--spacing-40) var(--spacing-16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-40);
+}
+
+/* Tablet: horizontal layout */
+@media (min-width: 768px) {
+  .hero {
+    flex-direction: row-reverse;
+  }
+}
+```
+
+### Skills Grid
+
+The skills grid shows fewer items on mobile, progressively revealing more:
+
+```css global.css
+/* Mobile: show first 6 skills */
+.skill-card:nth-child(n + 7) {
+  display: none;
+}
+
+/* Tablet: show 8 skills */
+@media (min-width: 768px) {
+  .skill-card:nth-child(n + 7) {
+    display: flex;
+  }
+  .skill-card:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+/* Desktop: show all 10 skills */
+@media (min-width: 1024px) {
+  .skill-card:nth-child(n + 9) {
+    display: flex;
+  }
+}
+```
+
+<Tip>
+This progressive disclosure pattern improves mobile performance by reducing DOM elements while providing richer content on larger screens.
+</Tip>
+
+## The Breakpoint Strategy
+
+This project uses three main breakpoints:
+
+| Breakpoint | Device | Purpose |
+|------------|--------|----------|
+| Default | Mobile (320px+) | Base styles for all devices |
+| 768px | Tablet | Two-column layouts, more spacing |
+| 1024px | Desktop | Multi-column grids, full features |
+
+### Why These Breakpoints?
+
+These breakpoints are based on **content needs**, not specific devices:
+
+- **768px**: Where single-column layouts become too stretched
+- **1024px**: Where multi-column layouts become comfortable
+
+<Warning>
+Avoid device-specific breakpoints like "iPhone width" or "iPad width". Design for content, not devices.
+</Warning>
+
+## Mobile-First CSS Best Practices
+
+### 1. Use min-width Media Queries
+
+```css
+/* ✅ Good: Mobile-first */
+.element { /* mobile styles */ }
+@media (min-width: 768px) { /* tablet styles */ }
+@media (min-width: 1024px) { /* desktop styles */ }
+
+/* ❌ Bad: Desktop-first */
+.element { /* desktop styles */ }
+@media (max-width: 1024px) { /* tablet styles */ }
+@media (max-width: 768px) { /* mobile styles */ }
+```
+
+### 2. Stack Vertically by Default
+
+```css
+/* Mobile: stack */
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop: row */
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+```
+
+### 3. Start with Single Column
+
+```css
+/* Mobile: fluid single column */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Desktop: multiple columns */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+```
+
+## Testing Your Mobile-First Design
+
+<Steps>
+  <Step title="Start at 320px">
+    Test your design at the smallest common mobile width (320px). Everything should be readable and functional.
+  </Step>
+  <Step title="Scale Up Gradually">
+    Slowly increase the viewport width. Add breakpoints only when the design breaks or content needs restructuring.
+  </Step>
+  <Step title="Test Real Devices">
+    Use real mobile devices when possible. Simulators don't capture touch interactions, performance, or network conditions.
+  </Step>
+  <Step title="Check Touch Targets">
+    Ensure all interactive elements are at least 44×44px for comfortable touch interaction.
+  </Step>
+</Steps>
+
+## Key Takeaways
+
+- Start with mobile constraints to focus on essential content
+- Use `min-width` media queries to progressively enhance
+- Base breakpoints on content needs, not specific devices
+- Default styles = mobile styles (no media query needed)
+- Test on real devices throughout development
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Responsive Design" icon="mobile-screen" href="/concepts/responsive-design">
+    Learn responsive layout techniques used in the project
+  </Card>
+  <Card title="CSS Architecture" icon="sitemap" href="/concepts/css-architecture">
+    Understand how CSS is organized and structured
+  </Card>
+</CardGroup>

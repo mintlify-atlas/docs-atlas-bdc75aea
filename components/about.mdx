@@ -1,0 +1,303 @@
+---
+title: About Component
+description: Two-column about section with image and detailed biography
+---
+
+## Overview
+
+The about section provides a detailed introduction to the developer, combining a visual element (image) with multiple paragraphs of biographical information. It uses a responsive two-column layout that adapts to different screen sizes.
+
+## Key Features
+
+- Responsive two-column layout (stacked on mobile, side-by-side on desktop)
+- Image with constrained height for visual balance
+- Multi-paragraph text content
+- Semantic HTML structure
+- Left-aligned title (different from other sections)
+
+## HTML Structure
+
+The about section uses a flexible container with image and content areas:
+
+```html
+<section class="about" id="about">
+  <div class="section-container about__container">
+    <div class="about__image-wrapper">
+      <img
+        src="assets/about_me.svg"
+        alt="About Me"
+        class="about__image"
+      />
+    </div>
+    <div class="about__content">
+      <h2 class="section-title about__title">
+        About <strong>Me</strong>
+      </h2>
+      <div class="about__text">
+        <p>
+          I'm a passionate, self-proclaimed designer who specializes in
+          full stack development (React.js & Node.js). I am very
+          enthusiastic about bringing the technical and visual aspects of
+          digital products to life. User experience, pixel perfect design,
+          and writing clear, readable, highly performant code matters to
+          me.
+        </p>
+        <p>
+          I began my journey as a web developer in 2015, and since then,
+          I've continued to grow and evolve as a developer, taking on new
+          challenges and learning the latest technologies along the way.
+          Now, in my early thirties, 7 years after starting my web
+          development journey, I'm building cutting-edge web applications
+          using modern technologies such as Next.js, TypeScript, Nestjs,
+          Tailwindcss, Supabase and much more.
+        </p>
+        <p>
+          When I'm not in full-on developer mode, you can find me hovering
+          around on twitter or on indie hacker, witnessing the journey of
+          early startups or enjoying some free time. You can follow me on
+          Twitter where I share tech-related bites and build in public, or
+          you can follow me on GitHub.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+## CSS Classes
+
+### Container Layout
+
+<Accordion title=".about__container">
+  Flexible container with responsive direction:
+  
+  ```css
+  .about__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-40);
+  }
+
+  @media (min-width: 768px) {
+    .about__container {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--spacing-40);
+    }
+  }
+  ```
+</Accordion>
+
+### Image Section
+
+<Accordion title=".about__image-wrapper & .about__image">
+  Image container with responsive sizing:
+  
+  ```css
+  .about__image-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .about__image {
+    width: 100%;
+    height: auto;
+    max-height: 30vh;
+  }
+
+  @media (min-width: 768px) {
+    .about__image {
+      max-height: 40vh;
+    }
+
+    .about__image-wrapper {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+  ```
+</Accordion>
+
+### Content Section
+
+<Accordion title=".about__content">
+  Text content container:
+  
+  ```css
+  .about__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .about__content {
+      flex: 1;
+    }
+  }
+  ```
+</Accordion>
+
+### Title
+
+<Accordion title=".about__title">
+  Left-aligned title (override of default center alignment):
+  
+  ```css
+  .about__title {
+    text-align: left;
+  }
+  ```
+</Accordion>
+
+### Text Content
+
+<Accordion title=".about__text">
+  Multi-paragraph text styling:
+  
+  ```css
+  .about__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--zinc-500);
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 768px)">
+    - Vertical stack layout
+    - Image displayed above content
+    - Image max-height: 30vh
+    - Full-width sections
+    - Centered alignment
+    
+    ```css
+    .about__container {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-40);
+    }
+    
+    .about__image {
+      max-height: 30vh;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 768px)">
+    - Side-by-side layout
+    - Image on the left (flex: 1)
+    - Content on the right (flex: 1)
+    - Image max-height: 40vh
+    - Top-aligned items
+    
+    ```css
+    @media (min-width: 768px) {
+      .about__container {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+
+      .about__image {
+        max-height: 40vh;
+      }
+
+      .about__image-wrapper,
+      .about__content {
+        flex: 1;
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Layout Strategy
+
+The component uses flexbox with equal flex values for balanced layout:
+
+<Steps>
+  <Step title="Mobile First">
+    Start with a vertical stack that's easy to read on small screens.
+  </Step>
+  
+  <Step title="Flexible Images">
+    Constrain image height using viewport units (vh) rather than fixed pixels for better responsiveness.
+  </Step>
+  
+  <Step title="Equal Columns">
+    On desktop, both image and content get `flex: 1`, creating equal-width columns.
+  </Step>
+  
+  <Step title="Gap Consistency">
+    Maintain the same gap (var(--spacing-40)) between sections at all breakpoints.
+  </Step>
+</Steps>
+
+## Typography
+
+The text uses a muted color for better readability:
+
+```css
+.about__text {
+  color: var(--zinc-500);
+  line-height: 1.5;
+}
+```
+
+<Note>
+  The 1.5 line-height provides comfortable reading for longer text content.
+</Note>
+
+## Title Alignment
+
+Unlike other sections that use centered titles, the about section uses left alignment:
+
+```css
+.about__title {
+  text-align: left;
+}
+```
+
+This creates a more natural reading flow when combined with the left-aligned paragraphs below.
+
+## Image Constraints
+
+<Tabs>
+  <Tab title="Mobile">
+    ```css
+    max-height: 30vh;
+    ```
+    Prevents image from dominating the viewport on small screens.
+  </Tab>
+  
+  <Tab title="Desktop">
+    ```css
+    max-height: 40vh;
+    ```
+    Allows slightly larger image on bigger screens while maintaining balance.
+  </Tab>
+</Tabs>
+
+## Implementation Location
+
+The about section is located at lines 233-274 in index.html, with styles at lines 364-424 in global.css.
+
+## Content Structure
+
+<Tip>
+  The about section contains three distinct paragraphs covering:
+  1. Professional identity and values
+  2. Career journey and technical expertise
+  3. Personal interests and social presence
+</Tip>

@@ -1,0 +1,470 @@
+---
+title: Contact Component
+description: Contact form with social links and contact information section
+---
+
+## Overview
+
+The contact section combines a comprehensive contact form with contact information display. It features a two-column responsive layout with a form on one side and contact details on the other.
+
+## Key Features
+
+- Multi-field contact form with labels
+- Form validation attributes (inputmode, autocomplete)
+- Social media links integration
+- Contact information display
+- Responsive two-column layout
+- Focus states and accessibility features
+
+## HTML Structure
+
+The contact section is divided into form and info sections:
+
+```html
+<section class="contact" id="contact">
+  <div class="section-container">
+    <div class="contact__form-wrapper">
+      <form class="contact__form">
+        <div class="form-group">
+          <label for="name" class="contact__label">Your name</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Your name"
+            class="contact__input"
+            aria-label="Your name"
+            autocomplete="name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email" class="contact__label">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email"
+            class="contact__input"
+            aria-label="Email"
+            inputmode="email"
+            autocomplete="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="website" class="contact__label">Your website (If exists)</label>
+          <input
+            id="website"
+            type="text"
+            placeholder="Your website (If exists)"
+            class="contact__input"
+            aria-label="Your website"
+            inputmode="url"
+            autocomplete="url"
+          />
+        </div>
+        <div class="form-group">
+          <label for="phone" class="contact__label">Your phone number</label>
+          <input
+            id="phone"
+            type="text"
+            placeholder="Your phone number"
+            class="contact__input"
+            aria-label="Your phone"
+            inputmode="tel"
+            autocomplete="tel"
+          />
+        </div>
+        <div class="form-group">
+          <label for="message" class="contact__label">How can I help?*</label>
+          <textarea
+            id="message"
+            placeholder="How can I help?*"
+            class="contact__textarea"
+            aria-label="How can I help?"
+          ></textarea>
+        </div>
+        <div class="contact__actions">
+          <button type="submit" class="contact__button">
+            Get In Touch
+          </button>
+          <div class="contact__socials">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <img src="assets/facebook.svg" alt="Facebook" />
+            </a>
+            <a href="#" class="social-link" aria-label="Reddit">
+              <img src="assets/reddit.svg" alt="Reddit" />
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <img src="assets/twitter.svg" alt="Twitter" />
+            </a>
+            <a href="#" class="social-link" aria-label="Discord">
+              <img src="assets/discord.svg" alt="Discord" />
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="contact__info">
+      <h2 class="contact__title section-title">
+        <strong>
+          Let's <span class="outlined">talk</span> for<br />
+          Something special
+        </strong>
+      </h2>
+      <p class="contact__description">
+        I seek to push the limits of creativity to create high-engaging,
+        user-friendly, and memorable interactive experiences.
+      </p>
+      <div class="contact__details">
+        <a href="mailto:Youremail@gmail.com" class="contact__email">
+          Youremail@gmail.com
+        </a>
+        <p class="contact__phone">1234567890</p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+## CSS Classes
+
+### Section Container
+
+<Accordion title=".contact .section-container">
+  Responsive flex container:
+  
+  ```css
+  .contact .section-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-40);
+  }
+
+  @media (min-width: 1024px) {
+    .contact .section-container {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  ```
+</Accordion>
+
+### Form Structure
+
+<Accordion title=".contact__form">
+  Form layout with vertical fields:
+  
+  ```css
+  .contact__form-wrapper {
+    width: 100%;
+  }
+
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-20);
+  }
+
+  @media (min-width: 768px) {
+    .contact__form-wrapper {
+      flex: 1;
+      order: 1;
+    }
+  }
+  ```
+</Accordion>
+
+### Form Fields
+
+<Accordion title="Labels and Inputs">
+  Styled form inputs with focus states:
+  
+  ```css
+  .contact__label {
+    display: block;
+    margin-bottom: var(--spacing-8);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--primary-black);
+  }
+
+  .contact__input,
+  .contact__textarea {
+    width: 100%;
+    padding: var(--spacing-16);
+    border: 1px solid var(--primary-black);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .contact__input:focus,
+  .contact__textarea:focus {
+    border-color: var(--primary-black);
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .contact__input:focus-visible,
+  .contact__textarea:focus-visible {
+    outline: 2px solid var(--primary-black);
+    outline-offset: 2px;
+  }
+
+  .contact__input::placeholder,
+  .contact__textarea::placeholder {
+    color: var(--zinc-500);
+  }
+
+  .contact__textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  ```
+</Accordion>
+
+### Form Actions
+
+<Accordion title=".contact__actions">
+  Submit button and social links:
+  
+  ```css
+  .contact__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+    align-items: flex-start;
+  }
+
+  .contact__button {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    padding: var(--spacing-16) var(--spacing-32);
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .contact__button:hover {
+    opacity: 0.9;
+  }
+
+  .contact__socials {
+    display: flex;
+    gap: var(--spacing-24);
+  }
+
+  @media (min-width: 768px) {
+    .contact__actions {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+  ```
+</Accordion>
+
+### Contact Info Section
+
+<Accordion title=".contact__info">
+  Contact information display:
+  
+  ```css
+  .contact__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+  }
+
+  .contact__title {
+    text-align: start;
+  }
+
+  .contact__description {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    line-height: 1.5;
+    color: var(--zinc-500);
+  }
+
+  .contact__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+  }
+
+  .contact__email,
+  .contact__phone {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 600;
+    color: var(--primary-black);
+  }
+
+  @media (min-width: 768px) {
+    .contact__info {
+      flex: 1;
+      order: 2;
+    }
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 768px)">
+    - Vertical stack layout
+    - Form appears first
+    - Contact info below
+    - Vertical button/social layout
+    
+    ```css
+    .contact .section-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-40);
+    }
+
+    .contact__actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Tablet (768px - 1023px)">
+    - Still vertical stack
+    - Horizontal button/social layout
+    - Equal flex sections prepared
+    
+    ```css
+    @media (min-width: 768px) {
+      .contact__form-wrapper {
+        flex: 1;
+        order: 1;
+      }
+
+      .contact__info {
+        flex: 1;
+        order: 2;
+      }
+
+      .contact__actions {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 1024px)">
+    - Side-by-side layout
+    - Form on left, info on right
+    - Equal width columns
+    - Center-aligned vertically
+    
+    ```css
+    @media (min-width: 1024px) {
+      .contact .section-container {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Form Fields
+
+The contact form includes 5 fields:
+
+<Steps>
+  <Step title="Name">
+    Text input with autocomplete="name"
+  </Step>
+  
+  <Step title="Email">
+    Email input with inputmode="email" and autocomplete="email"
+  </Step>
+  
+  <Step title="Website">
+    URL input with inputmode="url" and autocomplete="url"
+  </Step>
+  
+  <Step title="Phone">
+    Text input with inputmode="tel" and autocomplete="tel"
+  </Step>
+  
+  <Step title="Message">
+    Textarea with min-height: 120px and vertical resize
+  </Step>
+</Steps>
+
+## Accessibility Features
+
+<Note>
+  The form implements multiple accessibility best practices:
+</Note>
+
+- Explicit `<label>` elements for all inputs
+- `id` and `for` attribute pairing
+- `aria-label` attributes for screen readers
+- `autocomplete` attributes for autofill
+- `inputmode` for mobile keyboard optimization
+- Focus-visible outlines for keyboard navigation
+- Semantic form structure
+
+## Focus States
+
+Form inputs have sophisticated focus styling:
+
+```css
+.contact__input:focus,
+.contact__textarea:focus {
+  border-color: var(--primary-black);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact__input:focus-visible,
+.contact__textarea:focus-visible {
+  outline: 2px solid var(--primary-black);
+  outline-offset: 2px;
+}
+```
+
+This creates a clear visual indication for both mouse and keyboard users.
+
+## Mobile Optimization
+
+<Tip>
+  The form uses `inputmode` attributes to trigger appropriate mobile keyboards:
+  - `inputmode="email"` shows @ and .com keys
+  - `inputmode="tel"` shows numeric keypad
+  - `inputmode="url"` shows .com and / keys
+</Tip>
+
+## Social Links
+
+The social links reuse the `.social-link` class from the hero component, maintaining consistency across the site.
+
+## Implementation Location
+
+The contact section is located at lines 544-645 in index.html, with styles at lines 614-764 in global.css.
+
+## Special Text Effect
+
+The contact title uses the `.outlined` class on the word "talk" for visual emphasis:
+
+```html
+<h2 class="contact__title section-title">
+  <strong>
+    Let's <span class="outlined">talk</span> for<br />
+    Something special
+  </strong>
+</h2>
+```

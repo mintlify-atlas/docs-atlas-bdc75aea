@@ -1,0 +1,258 @@
+---
+title: Skills Component
+description: Responsive grid of skill cards with icons and labels
+---
+
+## Overview
+
+The skills section displays the developer's technical skills in an organized grid layout. Each skill is represented by a card with an icon and label, featuring hover effects for interactivity.
+
+## Key Features
+
+- Responsive grid using CSS Grid with auto-fit
+- Interactive hover effects (background color inversion)
+- Adaptive display (shows different numbers of cards based on screen size)
+- Square aspect ratio cards
+- Icon and label for each skill
+
+## HTML Structure
+
+The skills section uses a grid container with individual skill cards:
+
+```html
+<section class="skills" id="skills">
+  <div class="section-container">
+    <h2 class="skills__title section-title">
+      My <strong>Skills</strong>
+    </h2>
+    <div class="skills__grid">
+      <div class="skill-card">
+        <div class="skill-card__icon">
+          <img src="assets/ts.svg" alt="TypeScript" />
+        </div>
+        <p class="skill-card__label">TypeScript</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card__icon">
+          <img src="assets/next.svg" alt="Next" />
+        </div>
+        <p class="skill-card__label">Next</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card__icon">
+          <img src="assets/js.svg" alt="JavaScript" />
+        </div>
+        <p class="skill-card__label">JavaScript</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card__icon">
+          <img src="assets/react.svg" alt="React" />
+        </div>
+        <p class="skill-card__label">React</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card__icon">
+          <img src="assets/git.svg" alt="Git" />
+        </div>
+        <p class="skill-card__label">Git</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card__icon">
+          <img src="assets/node.svg" alt="Node.js" />
+        </div>
+        <p class="skill-card__label">Node.js</p>
+      </div>
+      <!-- More skill cards... -->
+    </div>
+  </div>
+</section>
+```
+
+## CSS Classes
+
+### Grid Container
+
+<Accordion title=".skills__grid">
+  Uses CSS Grid with auto-fit for responsive layout:
+  
+  ```css
+  .skills__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--spacing-20);
+  }
+
+  @media (min-width: 768px) {
+    .skills__grid {
+      gap: var(--spacing-32);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .skills__grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+  ```
+</Accordion>
+
+### Skill Card
+
+<Accordion title=".skill-card">
+  Individual skill card with square aspect ratio:
+  
+  ```css
+  .skill-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    aspect-ratio: 1/1;
+    padding: var(--spacing-24);
+    border-radius: 4px;
+    background: var(--primary-white);
+    border: 2px solid var(--primary-black);
+    transition: transform 0.15s ease;
+  }
+
+  .skill-card:hover {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    transform: translateY(-2px);
+  }
+
+  .skill-card:hover .skill-card__icon img {
+    filter: invert(1);
+  }
+
+  .skill-card:hover .skill-card__label {
+    color: var(--primary-white);
+  }
+  ```
+</Accordion>
+
+### Icon Styling
+
+<Accordion title=".skill-card__icon">
+  Responsive icon sizing:
+  
+  ```css
+  .skill-card__icon img {
+    width: clamp(3rem, 4vw, 5rem);
+    height: auto;
+    margin-bottom: var(--spacing-16);
+  }
+  ```
+</Accordion>
+
+### Label
+
+<Accordion title=".skill-card__label">
+  Skill name typography:
+  
+  ```css
+  .skill-card__label {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 700;
+    color: var(--primary-black);
+  }
+  ```
+</Accordion>
+
+## Responsive Behavior
+
+<Tabs>
+  <Tab title="Mobile (< 768px)">
+    - Shows 6 skill cards
+    - 2-column grid (auto-fit with 160px minimum)
+    - Smaller gap between cards
+    
+    ```css
+    .skill-card:nth-child(n + 7) {
+      display: none;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Tablet (768px - 1023px)">
+    - Shows 8 skill cards
+    - Flexible grid (auto-fit)
+    - Larger gap between cards
+    
+    ```css
+    @media (min-width: 768px) {
+      .skills__grid {
+        gap: var(--spacing-32);
+      }
+      .skill-card:nth-child(n + 7) {
+        display: flex;
+      }
+      .skill-card:nth-child(n + 9) {
+        display: none;
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Desktop (>= 1024px)">
+    - Shows all 10 skill cards
+    - Fixed 5-column grid
+    - Maximum spacing
+    
+    ```css
+    @media (min-width: 1024px) {
+      .skills__grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .skill-card:nth-child(n + 9) {
+        display: flex;
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Hover Effects
+
+The skill cards feature a complete color inversion on hover:
+
+1. Background changes from white to black
+2. Text color inverts to white
+3. Icon inverts colors using CSS filter
+4. Card lifts slightly with transform
+
+```css
+.skill-card:hover {
+  background: var(--primary-black);
+  color: var(--primary-white);
+  transform: translateY(-2px);
+}
+```
+
+## Grid Layout Strategy
+
+The component uses a progressive enhancement approach:
+
+<Steps>
+  <Step title="Base Grid">
+    Uses `repeat(auto-fit, minmax(160px, 1fr))` to create a flexible grid that automatically determines columns based on available space.
+  </Step>
+  
+  <Step title="Tablet Enhancement">
+    Increases gap spacing and reveals more skill cards.
+  </Step>
+  
+  <Step title="Desktop Enhancement">
+    Switches to a fixed 5-column layout for consistent appearance on large screens.
+  </Step>
+</Steps>
+
+## Implementation Notes
+
+<Note>
+  The skills section is located at lines 91-167 in index.html, with styles at lines 206-307 in global.css.
+</Note>
+
+<Tip>
+  The aspect-ratio property ensures all skill cards maintain perfect squares regardless of content, creating a clean, uniform grid.
+</Tip>
