@@ -36,8 +36,8 @@ The CSS is split into three focused files:
 
 **Benefits of this approach:**
 - **reset.css**: Normalizes browser defaults (loaded once, cached forever)
-- **variables.css**: CSS custom properties for theming (39 lines, minimal overhead)
-- **global.css**: Component styles (765 lines, but no unused CSS)
+- **variables.css**: CSS custom properties for theming (38 lines, minimal overhead)
+- **global.css**: Component styles (764 lines, but no unused CSS)
 
 ### CSS Variables for Efficiency
 
@@ -137,11 +137,11 @@ Container queries allow components to adapt to their container's size, enabling 
 
 ## Minimal JavaScript Approach
 
-The entire site uses only 18 lines of JavaScript for menu functionality. This minimal approach has significant performance benefits.
+The entire site uses only 17 lines of JavaScript for menu functionality. This minimal approach has significant performance benefits.
 
 ### Complete JavaScript File
 
-```javascript title="main.js:1-18"
+```javascript title="main.js:1-17"
 const toggleBtn = document.querySelector('.header__toggle');
 const nav = document.querySelector('.header__nav');
 const navLinks = document.querySelectorAll('.header__nav a');
@@ -416,7 +416,7 @@ With gzip compression and caching, returning visitors load only changed resource
 **Target: < 2.5 seconds**
 
 ### First Input Delay (FID)
-- Minimal JavaScript (18 lines)
+- Minimal JavaScript (17 lines)
 - No heavy frameworks
 - Simple event listeners
 - Fast parsing and execution
